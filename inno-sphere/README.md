@@ -40,6 +40,10 @@ If it is omitted, the API uses a local SQLite file for development.
 Use the included `render.yaml` blueprint to create both the API and frontend.
 Add these environment variables to the API service in Render:
 
+The API is pinned to Python 3.11 because the dependency set has prebuilt wheels
+for Python 3.11. This prevents Render from trying to compile `pydantic-core`
+with Rust under Python 3.14.
+
 ```text
 DATABASE_URL=postgresql://neondb_owner:YOUR_PASSWORD@ep-example.us-east-2.aws.neon.tech/neondb?sslmode=require
 ENVIRONMENT=production

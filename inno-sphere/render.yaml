@@ -3,7 +3,7 @@ services:
     name: inno-sphere-api
     runtime: python
     rootDir: backend
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install --only-binary=:all: -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
@@ -13,6 +13,10 @@ services:
         sync: false
       - key: ENVIRONMENT
         value: production
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: PIP_ONLY_BINARY
+        value: ":all:"
       - key: JWT_SECRET
         sync: false
 
