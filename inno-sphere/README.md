@@ -15,23 +15,9 @@ No special camera. No IoT sensors. No hardware of any kind.
 
 ## Run it
 
-You need Docker, or Python 3.11+ and Node 20+.
+You need Python 3.11+ and Node 20+.
 
-### With Docker (everything at once)
-
-```bash
-cp .env.example .env          # edit if you have API credentials
-docker compose up --build
-```
-
-- Web app: http://localhost:5173
-- API and interactive docs: http://localhost:8000/docs
-- PostgreSQL + PostGIS: localhost:5432 (`inno` / `inno`)
-
-The database schema and a starting farm record are created automatically on
-first start from `backend/db/`.
-
-### Without Docker
+### Local development
 
 ```bash
 # Terminal 1 — API
@@ -47,23 +33,31 @@ npm run dev
 ```
 
 Set `DATABASE_URL` in `.env` to point at your own PostgreSQL instance.
+If it is omitted, the API uses a local SQLite file for development.
 
 ### Deploy the API on Render with Neon
 
-Create a Render Web Service from the `backend` directory using its Dockerfile,
-or use the included `render.yaml` blueprint. Add these environment variables in
-Render:
+Use the included `render.yaml` blueprint to create both the API and frontend.
+Add these environment variables to the API service in Render:
 
 ```text
 DATABASE_URL=postgresql://neondb_owner:YOUR_PASSWORD@ep-example.us-east-2.aws.neon.tech/neondb?sslmode=require
 ENVIRONMENT=production
 JWT_SECRET=<a-long-random-secret>
+FRONTEND_URL=https://your-frontend-service.onrender.com
 ```
 
 The API automatically converts Neon's `postgresql://` URL (and Render's legacy
 `postgres://` form) to the installed `psycopg` SQLAlchemy driver. Keep Neon's
 `sslmode=require` query parameter in the URL. The Render health check is
 `/health`.
+
+Add this variable to the frontend service, using the API service URL shown by
+Render:
+
+```text
+VITE_API_URL=https://your-api-service.onrender.com
+```
 
 ### In VS Code
 
@@ -162,7 +156,6 @@ inno-sphere/
 │       ├── components/        Shell (responsive nav), Icons, Ui, Empty
 │       ├── pages/             15 screens
 │       └── lib/               api client, i18n, on-device image checks, farm state
-├── docker-compose.yml
 └── .vscode/
 ```
 

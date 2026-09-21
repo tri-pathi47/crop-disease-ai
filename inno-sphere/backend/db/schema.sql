@@ -1,5 +1,5 @@
 -- Inno Sphere — PostgreSQL schema
--- Run automatically by docker-compose on first start.
+-- Run manually when using a PostgreSQL database.
 -- SQLAlchemy models in backend/app/models.py mirror this; keep them in step.
 
 CREATE EXTENSION IF NOT EXISTS postgis;

@@ -6,13 +6,14 @@ class Settings(BaseSettings):
     app_name: str = "Inno Sphere API"
     environment: str = "development"
 
-    database_url: str = "postgresql+psycopg://inno:inno@db:5432/innosphere"
+    database_url: str = "sqlite:///./innosphere.db"
+    frontend_url: str = ""
 
     jwt_secret: str = "change-me-in-production"
     jwt_algorithm: str = "HS256"
     jwt_expire_minutes: int = 60 * 24 * 14
 
-    upload_dir: str = "/srv/uploads"
+    upload_dir: str = "./uploads"
 
     # Optional external services. When a key is missing the matching service
     # falls back to clearly-labelled demo data instead of failing.

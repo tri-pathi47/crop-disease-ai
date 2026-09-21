@@ -16,6 +16,8 @@ def normalize_database_url(database_url: str) -> str:
         normalized = "postgresql+psycopg://" + normalized.removeprefix("postgresql://")
     elif normalized.startswith("postgresql+psycopg2://"):
         normalized = "postgresql+psycopg://" + normalized.removeprefix("postgresql+psycopg2://")
+    if normalized.startswith("sqlite://"):
+        return normalized
     parsed = urlsplit(normalized)
     if parsed.scheme != "postgresql+psycopg" or not parsed.hostname:
         raise ValueError(
@@ -30,12 +32,11 @@ def normalize_database_url(database_url: str) -> str:
     return normalized
 
 
-engine = create_engine(
-    normalize_database_url(settings.database_url),
-    pool_pre_ping=True,
-    pool_recycle=300,
-    future=True,
-)
+database_url = normalize_database_url(settings.database_url)
+engine_options = {"pool_pre_ping": True, "pool_recycle": 300, "future": True}
+if database_url.startswith("sqlite://"):
+    engine_options["connect_args"] = {"check_same_thread": False}
+engine = create_engine(database_url, **engine_options)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
 
 
