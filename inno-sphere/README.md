@@ -55,7 +55,7 @@ or use the included `render.yaml` blueprint. Add these environment variables in
 Render:
 
 ```text
-DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
+DATABASE_URL=postgresql://neondb_owner:YOUR_PASSWORD@ep-example.us-east-2.aws.neon.tech/neondb?sslmode=require
 ENVIRONMENT=production
 JWT_SECRET=<a-long-random-secret>
 ```
