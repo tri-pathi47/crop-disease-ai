@@ -63,6 +63,9 @@ Render:
 VITE_API_URL=https://your-api-service.onrender.com
 ```
 
+The frontend Render service includes a catch-all rewrite to `index.html`, so
+React Router pages continue to load when opened or refreshed directly.
+
 ### In VS Code
 
 Open the `inno-sphere` folder. The recommended extensions are suggested on first
