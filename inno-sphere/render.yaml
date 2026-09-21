@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: inno-sphere-api
+    runtime: docker
+    rootDir: backend
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: ENVIRONMENT
+        value: production
+      - key: JWT_SECRET
+        sync: false

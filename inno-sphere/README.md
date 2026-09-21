@@ -48,6 +48,23 @@ npm run dev
 
 Set `DATABASE_URL` in `.env` to point at your own PostgreSQL instance.
 
+### Deploy the API on Render with Neon
+
+Create a Render Web Service from the `backend` directory using its Dockerfile,
+or use the included `render.yaml` blueprint. Add these environment variables in
+Render:
+
+```text
+DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
+ENVIRONMENT=production
+JWT_SECRET=<a-long-random-secret>
+```
+
+The API automatically converts Neon's `postgresql://` URL (and Render's legacy
+`postgres://` form) to the installed `psycopg` SQLAlchemy driver. Keep Neon's
+`sslmode=require` query parameter in the URL. The Render health check is
+`/health`.
+
 ### In VS Code
 
 Open the `inno-sphere` folder. The recommended extensions are suggested on first
