@@ -1,0 +1,8 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/bin/python",
+  "python.analysis.extraPaths": ["${workspaceFolder}/backend"],
+  "editor.formatOnSave": true,
+  "files.exclude": { "**/__pycache__": true, "**/node_modules": true },
+  "[python]": { "editor.defaultFormatter": "charliermarsh.ruff" },
+  "[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
+}

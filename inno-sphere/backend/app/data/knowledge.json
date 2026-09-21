@@ -1,0 +1,365 @@
+{
+  "crops": {
+    "tomato": {
+      "name": "Tomato",
+      "hi": "टमाटर",
+      "stages": [
+        "Seedling",
+        "Vegetative",
+        "Flowering",
+        "Fruiting",
+        "Harvest"
+      ],
+      "soil": "Well-drained loam, pH 6.0-7.0",
+      "climate": "20-27 C, sensitive to frost",
+      "nutrients": "Needs steady potassium at fruiting; zinc shortage common on sandy loam",
+      "diseases": [
+        "early_blight",
+        "late_blight"
+      ],
+      "pests": [
+        "whitefly",
+        "fruit_borer"
+      ],
+      "deficiencies": [
+        "zinc",
+        "calcium (blossom end rot)"
+      ],
+      "source": "ICAR package of practices",
+      "version": "demo v0.3"
+    },
+    "wheat": {
+      "name": "Wheat",
+      "hi": "गेहूं",
+      "stages": [
+        "Tillering",
+        "Jointing",
+        "Booting",
+        "Heading",
+        "Grain fill"
+      ],
+      "soil": "Loam to clay loam, pH 6.5-7.5",
+      "climate": "Cool growing season, 20-25 C at grain fill",
+      "nutrients": "Nitrogen split across tillering and jointing",
+      "diseases": [
+        "yellow_rust"
+      ],
+      "pests": [
+        "aphid"
+      ],
+      "deficiencies": [
+        "nitrogen",
+        "sulphur"
+      ],
+      "source": "ICAR-IIWBR",
+      "version": "demo v0.3"
+    },
+    "potato": {
+      "name": "Potato",
+      "hi": "आलू",
+      "stages": [
+        "Emergence",
+        "Vegetative",
+        "Tuber initiation",
+        "Bulking",
+        "Maturity"
+      ],
+      "soil": "Sandy loam, pH 5.5-6.5",
+      "climate": "Cool nights favour tuber bulking",
+      "nutrients": "High potassium demand during bulking",
+      "diseases": [
+        "late_blight"
+      ],
+      "pests": [
+        "aphid"
+      ],
+      "deficiencies": [
+        "potassium",
+        "magnesium"
+      ],
+      "source": "ICAR-CPRI",
+      "version": "demo v0.3"
+    }
+  },
+  "diseases": {
+    "early_blight": {
+      "key": "early_blight",
+      "name": "Early blight",
+      "scientific_name": "Alternaria solani",
+      "crops": [
+        "tomato",
+        "potato"
+      ],
+      "pathogen": "Fungus",
+      "cause": "Fungus surviving on crop debris and in soil",
+      "symptoms": "Dark brown spots with concentric rings on older leaves, yellow halo around spots, lower leaves affected first",
+      "affected_parts": "Leaves, stem, fruit",
+      "growth_stage": "Flowering to fruiting",
+      "favours": "22-30 C with leaf wetness over 8 hours, alternating wet and dry spells",
+      "spread": "Wind, rain splash, irrigation splash, infected debris",
+      "risk_factors": "Dense canopy, overhead watering, continuous tomato or potato cropping",
+      "similar_looking": "Septoria leaf spot, magnesium deficiency, sun scald",
+      "differential": "Ringed spots starting on older leaves separate it from nutrient yellowing, which follows vein patterns on younger leaves",
+      "severity": "Moderate to high if untreated at fruiting",
+      "prevention": "Crop rotation, staking, removing lower infected leaves, avoiding overhead wetting of foliage",
+      "management": "Remove and destroy affected leaves. Consult the local KVK or plant clinic before any spray, since product choice depends on crop stage and pre-harvest interval.",
+      "monitoring": "Check 10 plants at 5 spots every 3 days",
+      "regional_relevance": "Widespread across India wherever tomato and potato are grown",
+      "references": [
+        "ICAR crop protection guidance",
+        "State agricultural university advisories"
+      ],
+      "source": "ICAR",
+      "source_date": "2024",
+      "version": "demo v0.3",
+      "hi": {
+        "name": "अगेती झुलसा",
+        "symptoms": "पुरानी पत्तियों पर गोल छल्लेदार भूरे धब्बे",
+        "plain": "पत्तियों में फफूंद जैसी बीमारी के लक्षण दिख रहे हैं।"
+      }
+    },
+    "late_blight": {
+      "key": "late_blight",
+      "name": "Late blight",
+      "scientific_name": "Phytophthora infestans",
+      "crops": [
+        "potato",
+        "tomato"
+      ],
+      "pathogen": "Oomycete",
+      "cause": "Oomycete pathogen spreading through moist air",
+      "symptoms": "Water-soaked grey-green patches spreading fast, white fuzzy growth on leaf underside in humid mornings, dark stem lesions",
+      "affected_parts": "Leaves, stem, tuber, fruit",
+      "growth_stage": "Any stage after canopy closure",
+      "favours": "Cool nights 10-18 C, humidity above 90%, fog or continuous drizzle",
+      "spread": "Airborne sporangia, can cross a field in days",
+      "risk_factors": "Dense canopy, infected seed material, volunteer plants",
+      "similar_looking": "Early blight, frost injury, bacterial wilt",
+      "differential": "Spreads far faster than early blight and shows white growth on the leaf underside in the morning",
+      "severity": "High, can destroy a field within a week",
+      "prevention": "Healthy seed material, good spacing, destroy volunteer plants",
+      "management": "Act quickly and get the identification confirmed locally. Regional reporting matters because this disease moves between farms.",
+      "monitoring": "Daily inspection when nights are cool and humid",
+      "regional_relevance": "Serious in hills and in north Indian winter potato",
+      "references": [
+        "ICAR-CPRI advisories",
+        "FAO plant health material"
+      ],
+      "source": "ICAR-CPRI",
+      "source_date": "2024",
+      "version": "demo v0.3",
+      "hi": {
+        "name": "पछेती झुलसा",
+        "symptoms": "पत्तियों पर पानी भरे धब्बे जो तेजी से फैलते हैं",
+        "plain": "तेजी से फैलने वाली झुलसा बीमारी के लक्षण दिख रहे हैं।"
+      }
+    },
+    "yellow_rust": {
+      "key": "yellow_rust",
+      "name": "Yellow rust",
+      "scientific_name": "Puccinia striiformis",
+      "crops": [
+        "wheat"
+      ],
+      "pathogen": "Fungus",
+      "cause": "Wind-borne fungal spores",
+      "symptoms": "Yellow-orange powdery stripes running along leaf veins, powder rubs off on fingers",
+      "affected_parts": "Leaves, leaf sheath",
+      "growth_stage": "Tillering to heading",
+      "favours": "10-18 C with dew or light rain, common in the north Indian winter",
+      "spread": "Wind-borne spores over long distances",
+      "risk_factors": "Susceptible varieties, late sowing, excess nitrogen",
+      "similar_looking": "Nitrogen deficiency striping, brown rust",
+      "differential": "Rust powder transfers to the finger; nutrient striping does not",
+      "severity": "High at heading stage",
+      "prevention": "Resistant varieties, timely sowing, balanced nitrogen",
+      "management": "Report early appearance to the local agriculture office. Regional rust surveillance matters as much as action in one field.",
+      "monitoring": "Scout field borders and shaded patches weekly from January",
+      "regional_relevance": "Punjab, Haryana, western UP, hills",
+      "references": [
+        "ICAR-IIWBR rust surveillance notes"
+      ],
+      "source": "ICAR-IIWBR",
+      "source_date": "2024",
+      "version": "demo v0.3",
+      "hi": {
+        "name": "पीली कुंगी",
+        "symptoms": "पत्तियों पर पीली धारियां जो उंगली पर लग जाती हैं",
+        "plain": "गेहूं में पीली कुंगी के लक्षण दिख रहे हैं।"
+      }
+    }
+  },
+  "pests": {
+    "aphid": {
+      "key": "aphid",
+      "name": "Aphid",
+      "scientific_name": "Various Aphididae",
+      "crops": [
+        "wheat",
+        "potato",
+        "tomato"
+      ],
+      "identification": "Soft pear-shaped insects 1-3 mm, green to black, clustered on tender shoots and leaf undersides",
+      "egg_stage": "Overwintering eggs on alternate hosts",
+      "larva_stage": "Nymphs look like small wingless adults",
+      "adult_stage": "Winged and wingless forms; winged ones appear when the colony gets crowded",
+      "damage": "Curled sticky leaves, honeydew with sooty mould, stunted tips, virus transmission",
+      "plant_part": "Tender shoots, leaf underside",
+      "season": "Cool dry weather, builds up after warm spells",
+      "favours": "15-25 C, low rainfall",
+      "hosts": "Wheat, mustard, potato, vegetables",
+      "monitoring": "Count colonies on 5 tillers at 10 spots",
+      "threshold": "Check state IPM guidance; thresholds vary by crop and stage",
+      "natural_enemies": "Ladybird beetles, syrphid larvae, parasitoid wasps",
+      "prevention": "Avoid excess nitrogen, conserve natural enemies",
+      "management": "Protect natural enemies first. Any chemical decision needs local threshold guidance.",
+      "references": [
+        "ICAR IPM package of practices"
+      ],
+      "source": "ICAR",
+      "version": "demo v0.3",
+      "hi": {
+        "name": "माहू",
+        "damage": "पत्ते मुड़ जाते हैं और चिपचिपे हो जाते हैं"
+      }
+    },
+    "whitefly": {
+      "key": "whitefly",
+      "name": "Whitefly",
+      "scientific_name": "Bemisia tabaci",
+      "crops": [
+        "tomato",
+        "potato"
+      ],
+      "identification": "Tiny white winged insects that fly up when the plant is shaken; scale-like nymphs on the leaf underside",
+      "egg_stage": "Pale eggs on leaf underside",
+      "larva_stage": "Flat scale-like nymphs",
+      "adult_stage": "About 1 mm, white",
+      "damage": "Yellowing, downward leaf curl, sticky leaves, transmits leaf curl virus",
+      "plant_part": "Leaf underside",
+      "season": "Warm dry weather",
+      "favours": "25-32 C",
+      "hosts": "Tomato, brinjal, cotton, okra",
+      "monitoring": "Yellow sticky traps, count adults on 3 upper leaves per plant",
+      "threshold": "Check state IPM guidance",
+      "natural_enemies": "Encarsia parasitoids, predatory bugs",
+      "prevention": "Remove virus-affected plants, use barrier crops and traps",
+      "management": "Remove affected plants and use traps. Confirm any chemical choice locally.",
+      "references": [
+        "ICAR IPM package of practices"
+      ],
+      "source": "ICAR",
+      "version": "demo v0.3",
+      "hi": {
+        "name": "सफेद मक्खी",
+        "damage": "पत्ते नीचे की ओर मुड़ते हैं और पीले पड़ते हैं"
+      }
+    },
+    "fruit_borer": {
+      "key": "fruit_borer",
+      "name": "Fruit borer",
+      "scientific_name": "Helicoverpa armigera",
+      "crops": [
+        "tomato"
+      ],
+      "identification": "Green to brown caterpillar with light stripes, head buried in the fruit",
+      "egg_stage": "Round white eggs on flowers and tender leaves",
+      "larva_stage": "Caterpillar up to 40 mm",
+      "adult_stage": "Stout light brown moth, active at night",
+      "damage": "Circular bore holes in fruit, hollowed fruit, flower drop",
+      "plant_part": "Flower and fruit",
+      "season": "Flowering and fruiting stage",
+      "favours": "Warm weather",
+      "hosts": "Tomato, chickpea, pigeonpea, cotton",
+      "monitoring": "Pheromone traps, count bored fruit in 10 plants",
+      "threshold": "Check state IPM guidance",
+      "natural_enemies": "Trichogramma, birds, predatory bugs",
+      "prevention": "Pheromone traps, bird perches, timely harvest",
+      "management": "Hand collect and destroy bored fruit and caterpillars, and keep traps running.",
+      "references": [
+        "ICAR IPM package of practices"
+      ],
+      "source": "ICAR",
+      "version": "demo v0.3",
+      "hi": {
+        "name": "फल छेदक",
+        "damage": "फलों में गोल छेद दिखाई देते हैं"
+      }
+    }
+  },
+  "glossary": [
+    {
+      "concept": "Water stress",
+      "language": "Hindi",
+      "region": "North India",
+      "local": "फसल मुरझा रही है",
+      "standard": "Water stress",
+      "meaning": "Crop showing wilting from insufficient water",
+      "status": "verified",
+      "source": "KVK review"
+    },
+    {
+      "concept": "Yellow rust",
+      "language": "Punjabi",
+      "region": "Punjab",
+      "local": "ਪੀਲੀ ਕੁੰਗੀ",
+      "standard": "Yellow rust",
+      "meaning": "Puccinia striiformis on wheat",
+      "status": "verified",
+      "source": "PAU advisory"
+    },
+    {
+      "concept": "Late blight",
+      "language": "Hindi",
+      "region": "UP, Bihar",
+      "local": "झुलसा रोग",
+      "standard": "Late blight",
+      "meaning": "Phytophthora infestans",
+      "status": "verified",
+      "source": "KVK review"
+    },
+    {
+      "concept": "Aphid",
+      "language": "Marathi",
+      "region": "Maharashtra",
+      "local": "मावा",
+      "standard": "Aphid",
+      "meaning": "Sap sucking insect colony",
+      "status": "verified",
+      "source": "KVK review"
+    },
+    {
+      "concept": "Leaf curl",
+      "language": "Hindi",
+      "region": "Rajasthan",
+      "local": "पत्ता मरोड़",
+      "standard": "Leaf curl virus",
+      "meaning": "Virus transmitted by whitefly",
+      "status": "needs review",
+      "source": "farmer reported"
+    }
+  ],
+  "ui_terms": [
+    {
+      "technical": "Water stress",
+      "en": "Crop is short of water",
+      "hi": "फसल को पानी की कमी का असर हो रहा है।",
+      "mr": "पिकाला पाण्याची कमतरता जाणवत आहे.",
+      "ta": "பயிருக்கு நீர் பற்றாக்குறை உள்ளது."
+    },
+    {
+      "technical": "Fungal leaf disease",
+      "en": "A fungus is affecting the leaves",
+      "hi": "पत्तियों में फफूंद जैसी बीमारी के लक्षण हैं।",
+      "mr": "पानांवर बुरशीजन्य रोगाची लक्षणे आहेत.",
+      "ta": "இலைகளில் பூஞ்சை நோய் அறிகுறி உள்ளது."
+    },
+    {
+      "technical": "Nutrient deficiency",
+      "en": "The plant is short of a nutrient",
+      "hi": "पौधे में पोषक तत्व की कमी है।",
+      "mr": "झाडात अन्नद्रव्याची कमतरता आहे.",
+      "ta": "செடியில் ஊட்டச்சத்து குறைபாடு உள்ளது."
+    }
+  ]
+}
