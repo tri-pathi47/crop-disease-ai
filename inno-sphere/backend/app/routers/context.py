@@ -6,6 +6,7 @@ from ..database import get_db
 from ..models import Alert, Farm, User
 from ..services import weather as weather_service
 from ..services import satellite as satellite_service
+from ..services import soil as soil_service
 from .auth import current_user
 
 router = APIRouter(tags=["context"])
@@ -14,6 +15,11 @@ router = APIRouter(tags=["context"])
 @router.get("/weather")
 async def weather(lat: float = 28.669, lon: float = 77.453):
     return await weather_service.fetch(lat, lon)
+
+
+@router.get("/soil-estimate")
+async def soil_estimate(lat: float = 28.669, lon: float = 77.453):
+    return await soil_service.estimate(lat, lon)
 
 
 @router.get("/satellite/{farm_id}")

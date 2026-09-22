@@ -59,6 +59,7 @@ export const api = {
   diagnosisHistory: (id) => request(`/diagnosis/history/${id}`),
 
   weather: (lat, lon) => request(`/weather?lat=${lat}&lon=${lon}`),
+  soilEstimate: (lat, lon) => request(`/soil-estimate?lat=${lat}&lon=${lon}`),
   satellite: (farmId) => request(`/satellite/${farmId}`),
   alerts: (farmId) => request(`/alerts/${farmId}`),
 

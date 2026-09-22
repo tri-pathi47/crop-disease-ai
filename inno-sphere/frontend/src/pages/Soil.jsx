@@ -11,10 +11,12 @@ export default function Soil() {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState({});
   const [saved, setSaved] = useState(null);
+  const [estimate, setEstimate] = useState(null);
 
   useEffect(() => {
     api.soil(farm.id).then((s) => { setSoil(s); setDraft(s); }).catch(() => setSoil(false));
-  }, [farm.id]);
+    if (farm.lat && farm.lng) api.soilEstimate(farm.lat, farm.lng).then(setEstimate).catch(() => {});
+  }, [farm.id, farm.lat, farm.lng]);
 
   async function save() {
     const payload = { farm_id: farm.id, source: "soil_health_card", ...draft };
@@ -39,9 +41,10 @@ export default function Soil() {
     return (
       <>
         <h1>Soil</h1>
-        <Empty title="No soil record yet"
-          body="Enter the values from your Soil Health Card. Lab values are what separate a nutrient problem from a disease — satellite data cannot give them."
+        <Empty title="No measured soil record yet"
+          body="A regional soil estimate is shown below when available. Enter your Soil Health Card values for accurate field decisions."
           action="Enter soil values" onAction={() => setEditing(true)} />
+        {estimate && <Estimate data={estimate} />}
       </>
     );
   }
@@ -105,7 +108,26 @@ export default function Soil() {
           <Banner>Satellite data cannot give lab-grade nitrogen, phosphorus or potassium values. Only a soil test can.</Banner>
         </div>
       </div>
+      {estimate && <Estimate data={estimate} />}
       {saved && <p className="muted" style={{ marginTop: 10 }}>{saved}</p>}
     </>
+  );
+}
+
+function Estimate({ data }) {
+  const values = data.values || {};
+  return (
+    <div className="card" style={{ marginTop: 14 }}>
+      <h3>Regional soil estimate</h3>
+      <p className="muted">{data.depth ? `Surface depth: ${data.depth}. ` : ""}{data.note}</p>
+      {data.source === "unavailable" ? <p className="muted">{data.note}</p> : (
+        <div className="grid g3">
+          {["ph", "organic_carbon", "nitrogen", "clay", "sand"].map((key) => (
+            <div className="kv" key={key}><span>{key.replace("_", " ")}</span><b>{values[key] ?? "—"}</b></div>
+          ))}
+        </div>
+      )}
+      <p className="muted" style={{ marginTop: 10 }}>Source: {data.source} · Confidence: {data.confidence}</p>
+    </div>
   );
 }
