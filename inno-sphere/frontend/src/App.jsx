@@ -31,7 +31,7 @@ function AppContent() {
   const [result, setResult] = useState(null);
 
   return (
-    <FarmProvider>
+    <FarmProvider user={user}>
       <Shell>
         <Routes>
           <Route path="/" element={<Home />} />

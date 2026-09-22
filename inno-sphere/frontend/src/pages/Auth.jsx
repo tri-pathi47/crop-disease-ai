@@ -33,9 +33,6 @@ export default function Auth() {
         <h1>{mode === "login" ? "Welcome back" : "Create your farm account"}</h1>
         <p className="lede">Crop health decisions grounded in your field data.</p>
         <form onSubmit={submit}>
-          {mode === "register" && <label className="field">Your name
-            <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-          </label>}
           <label className="field">Your name
             <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
           </label>

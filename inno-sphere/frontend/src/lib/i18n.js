@@ -9,7 +9,9 @@ export const LANGUAGES = [
 // knowledge base (ui_terms).
 const STRINGS = {
   en: {
-    greet: "Good morning", health: "Crop health", disease: "Disease risk",
+    greetMorning: "Good morning", greetAfternoon: "Good afternoon",
+    greetEvening: "Good evening", greetNight: "Good night",
+    health: "Crop health", disease: "Disease risk",
     pest: "Pest risk", zones: "Field zones to check", check: "Check my crop",
     ask: "Ask the assistant", map: "Farm map", speak: "Speak", expert: "Expert",
     tagline: "Understand your farm. Detect problems early.",
@@ -18,7 +20,8 @@ const STRINGS = {
     speakHint: "Tap and describe the problem in your own words",
   },
   hi: {
-    greet: "सुप्रभात", health: "फसल की सेहत", disease: "बीमारी का खतरा",
+    greetMorning: "सुप्रभात", greetAfternoon: "नमस्कार", greetEvening: "शुभ संध्या", greetNight: "शुभ रात्रि",
+    health: "फसल की सेहत", disease: "बीमारी का खतरा",
     pest: "कीट का खतरा", zones: "जांच वाले खेत हिस्से", check: "मेरी फसल जांचें",
     ask: "सहायक से पूछें", map: "खेत का नक्शा", speak: "बोलें", expert: "विशेषज्ञ",
     tagline: "अपना खेत समझें। समस्या जल्दी पहचानें।",
@@ -27,7 +30,8 @@ const STRINGS = {
     speakHint: "दबाएं और अपनी भाषा में समस्या बताएं",
   },
   mr: {
-    greet: "सुप्रभात", health: "पिकाचे आरोग्य", disease: "रोगाचा धोका",
+    greetMorning: "सुप्रभात", greetAfternoon: "नमस्कार", greetEvening: "शुभ संध्याकाळ", greetNight: "शुभ रात्री",
+    health: "पिकाचे आरोग्य", disease: "रोगाचा धोका",
     pest: "किडीचा धोका", zones: "तपासायचे भाग", check: "माझे पीक तपासा",
     ask: "सहाय्यकाला विचारा", map: "शेताचा नकाशा", speak: "बोला", expert: "तज्ज्ञ",
     tagline: "तुमचे शेत समजून घ्या. समस्या लवकर ओळखा.",
@@ -36,7 +40,8 @@ const STRINGS = {
     speakHint: "दाबा आणि तुमच्या भाषेत समस्या सांगा",
   },
   bn: {
-    greet: "সুপ্রভাত", health: "ফসলের স্বাস্থ্য", disease: "রোগের ঝুঁকি",
+    greetMorning: "সুপ্রভাত", greetAfternoon: "শুভ অপরাহ্ন", greetEvening: "শুভ সন্ধ্যা", greetNight: "শুভ রাত্রি",
+    health: "ফসলের স্বাস্থ্য", disease: "রোগের ঝুঁকি",
     pest: "পোকার ঝুঁকি", zones: "পরীক্ষা করার অংশ", check: "আমার ফসল দেখুন",
     ask: "সহায়ককে জিজ্ঞাসা করুন", map: "খেতের মানচিত্র", speak: "বলুন", expert: "বিশেষজ্ঞ",
     tagline: "আপনার খেত বুঝুন। সমস্যা আগে ধরুন।",
@@ -45,7 +50,8 @@ const STRINGS = {
     speakHint: "চাপুন এবং নিজের ভাষায় সমস্যা বলুন",
   },
   ta: {
-    greet: "காலை வணக்கம்", health: "பயிர் நலம்", disease: "நோய் அபாயம்",
+    greetMorning: "காலை வணக்கம்", greetAfternoon: "மதிய வணக்கம்", greetEvening: "மாலை வணக்கம்", greetNight: "இனிய இரவு",
+    health: "பயிர் நலம்", disease: "நோய் அபாயம்",
     pest: "பூச்சி அபாயம்", zones: "பார்க்க வேண்டிய பகுதிகள்", check: "என் பயிரைப் பார்",
     ask: "உதவியாளரிடம் கேள்", map: "வயல் வரைபடம்", speak: "பேசு", expert: "நிபுணர்",
     tagline: "உங்கள் வயலை அறியுங்கள். பிரச்னையை முன்கூட்டியே கண்டறியுங்கள்.",
@@ -54,7 +60,8 @@ const STRINGS = {
     speakHint: "அழுத்தி உங்கள் மொழியில் பிரச்னையைச் சொல்லுங்கள்",
   },
   pa: {
-    greet: "ਸ਼ੁਭ ਸਵੇਰ", health: "ਫ਼ਸਲ ਦੀ ਸਿਹਤ", disease: "ਬਿਮਾਰੀ ਦਾ ਖ਼ਤਰਾ",
+    greetMorning: "ਸ਼ੁਭ ਸਵੇਰ", greetAfternoon: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", greetEvening: "ਸ਼ੁਭ ਸ਼ਾਮ", greetNight: "ਸ਼ੁਭ ਰਾਤਰੀ",
+    health: "ਫ਼ਸਲ ਦੀ ਸਿਹਤ", disease: "ਬਿਮਾਰੀ ਦਾ ਖ਼ਤਰਾ",
     pest: "ਕੀੜੇ ਦਾ ਖ਼ਤਰਾ", zones: "ਜਾਂਚ ਵਾਲੇ ਹਿੱਸੇ", check: "ਮੇਰੀ ਫ਼ਸਲ ਵੇਖੋ",
     ask: "ਸਹਾਇਕ ਤੋਂ ਪੁੱਛੋ", map: "ਖੇਤ ਦਾ ਨਕਸ਼ਾ", speak: "ਬੋਲੋ", expert: "ਮਾਹਰ",
     tagline: "ਆਪਣਾ ਖੇਤ ਸਮਝੋ। ਸਮੱਸਿਆ ਜਲਦੀ ਪਛਾਣੋ।",

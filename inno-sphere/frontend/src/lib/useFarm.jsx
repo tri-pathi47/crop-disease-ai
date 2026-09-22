@@ -17,8 +17,24 @@ function load() {
   } catch { return DEFAULT; }
 }
 
-export function FarmProvider({ children }) {
+export function FarmProvider({ children, user }) {
   const [state, setState] = useState(load);
+
+  useEffect(() => {
+    if (!user) return;
+    setState((current) => ({
+      ...current,
+      farmer: {
+        ...current.farmer,
+        name: user.name || current.farmer.name,
+        state: user.state || current.farmer.state,
+        district: user.district || current.farmer.district,
+        village: user.village || current.farmer.village,
+        area: user.land_area_ha ?? current.farmer.area,
+        experience: user.experience_years ?? current.farmer.experience,
+      },
+    }));
+  }, [user]);
 
   useEffect(() => {
     let active = true;

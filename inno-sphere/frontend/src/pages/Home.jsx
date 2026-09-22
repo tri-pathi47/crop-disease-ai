@@ -31,10 +31,14 @@ export default function Home() {
   const pressure = weather?.disease_pressure;
   const level = pressure === "high" ? "risk" : pressure === "moderate" ? "watch" : "ok";
   const latest = timeline[0];
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? t("greetMorning")
+    : hour < 17 ? t("greetAfternoon")
+      : hour < 21 ? t("greetEvening") : t("greetNight");
 
   return (
     <>
-      <h1>{t("greet")}, {farmer.name}</h1>
+      <h1>{greeting}, {farmer.name}</h1>
       <p className="lede">
         {farm.name} · {CROPS[farm.crop]?.name} · {farm.stage} stage · {farmer.district}
       </p>
@@ -45,7 +49,7 @@ export default function Home() {
           sub={latest ? `Checked ${new Date(latest.date).toLocaleDateString()}` : "Send photos to start"} />
         <Tile label={t("disease")} level={level}
           value={pressure ? pressure[0].toUpperCase() + pressure.slice(1) : "—"}
-          sub={weather ? `${weather.humid_nights} humid nights ahead` : "Loading forecast"} />
+          sub={weather ? `${weather.humid_nights} humid nights ahead` : error ? "Unavailable right now" : "Loading forecast"} />
         <Tile label="Temperature" level="ok"
           value={weather?.current ? `${weather.current.temp}°C` : "—"}
           sub={weather?.current ? weather.current.condition : "Unavailable"} />
