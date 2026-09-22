@@ -1,5 +1,5 @@
 """Weather, satellite and alerts."""
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from ..database import get_db
@@ -20,6 +20,8 @@ async def weather(lat: float = 28.669, lon: float = 77.453):
 async def satellite(farm_id: int, db: Session = Depends(get_db),
                     user: User = Depends(current_user)):
     farm = db.get(Farm, farm_id)
+    if not farm or farm.user_id != user.id:
+        raise HTTPException(404, "Farm not found.")
     stored = (farm.boundary_geojson or {}).get("zones") if farm else None
     return await satellite_service.field_zones(farm_id, stored)
 
@@ -29,6 +31,8 @@ async def alerts(farm_id: int, db: Session = Depends(get_db),
                  user: User = Depends(current_user)):
     """Stored alerts plus live ones derived from current weather."""
     farm = db.get(Farm, farm_id)
+    if not farm or farm.user_id != user.id:
+        raise HTTPException(404, "Farm not found.")
     stored = db.query(Alert).filter_by(farm_id=farm_id, acknowledged=False).all()
     out = [{"level": a.level, "title": a.title, "reason": a.reason,
             "action": a.action} for a in stored]

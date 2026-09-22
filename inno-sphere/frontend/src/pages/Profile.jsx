@@ -2,11 +2,55 @@ import { useState } from "react";
 import { useFarm } from "../lib/useFarm.jsx";
 import { CROPS } from "../lib/appData.js";
 import { useAuth } from "../lib/auth.jsx";
+import { api } from "../lib/api.js";
 
 export default function Profile() {
   const { farmer, farm, setFarmer, setFarm } = useFarm();
   const { logout } = useAuth();
   const [saved, setSaved] = useState(false);
+  const [locating, setLocating] = useState(false);
+
+  function locateFarm() {
+    if (!navigator.geolocation) {
+      setSaved("Location is not supported by this browser.");
+      return;
+    }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+      const patch = { lat: coords.latitude, lng: coords.longitude };
+      try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coords.latitude}&lon=${coords.longitude}&zoom=10`, { headers: { Accept: "application/json" } });
+        const place = await response.json();
+        const address = place.address || {};
+        setFarmer({
+          district: address.county || address.city_district || address.city || farmer.district,
+          state: address.state || farmer.state,
+          village: address.village || address.town || address.city || farmer.village,
+        });
+        setSaved("Location and locality detected.");
+      } catch {
+        setSaved("Coordinates detected. Locality lookup is temporarily unavailable.");
+      } finally { setFarm(patch); setLocating(false); }
+    }, () => { setSaved("Location permission was not granted."); setLocating(false); }, { enableHighAccuracy: true, timeout: 10000 });
+  }
+
+  async function saveDetails() {
+    try {
+      await api.updateFarm(farm.id, {
+        name: farm.name, latitude: farm.lat, longitude: farm.lng, area_ha: farmer.area,
+      });
+      await api.updateMe({
+        name: farmer.name, state: farmer.state, district: farmer.district,
+        village: farmer.village, land_area_ha: Number(farmer.area) || null,
+        experience_years: Number(farmer.experience) || null,
+      });
+      await api.updateCrop(farm.cropCycleId, {
+        farm_id: farm.id, crop: farm.crop, variety: farm.variety || null,
+        sowing_date: farm.sown || null, growth_stage: farm.stage,
+      });
+      setSaved("Farm details saved.");
+    } catch (err) { setSaved(err.message); }
+  }
 
   const field = (label, value, onChange, type = "text") => (
     <label className="field" key={label}>{label}
@@ -53,18 +97,25 @@ export default function Profile() {
             <div style={{ flex: 1 }}>{field("Latitude", farm.lat, (v) => setFarm({ lat: Number(v) }))}</div>
             <div style={{ flex: 1 }}>{field("Longitude", farm.lng, (v) => setFarm({ lng: Number(v) }))}</div>
           </div>
+          <button className="btn ghost" type="button" onClick={locateFarm} disabled={locating}>
+            {locating ? "Detecting location..." : "Use my current location"}
+          </button>
+          <a className="muted" href={`https://www.google.com/maps/search/?api=1&query=${farm.lat},${farm.lng}`} target="_blank" rel="noreferrer">
+            Open this farm in Google Maps
+          </a>
         </div>
       </div>
 
       <h2>Connected services</h2>
       <div className="card">
         <div className="kv"><span>Weather</span><b>Open-Meteo, live</b></div>
-        <div className="kv"><span>Satellite imagery</span><b>Copernicus Data Space — add credentials in the backend .env</b></div>
+        <div className="kv"><span>Satellite imagery</span><b>{farm.lat && farm.lng ? "Location ready; live Sentinel-2 needs a connected provider" : "Add a farm location"}</b></div>
+        <div className="kv"><span>Soil values</span><b>Enter values from a Soil Health Card or lab report</b></div>
         <div className="kv"><span>Indian-language speech</span><b>Browser speech, or Bhashini when configured</b></div>
       </div>
 
       <div className="row" style={{ marginTop: 14 }}>
-        <button className="btn" onClick={() => setSaved(true)}>Save details</button>
+        <button className="btn" onClick={saveDetails}>Save details</button>
         <button className="btn ghost" onClick={() => {
           const el = document.documentElement;
           el.dataset.theme = el.dataset.theme === "dark" ? "light" : "dark";

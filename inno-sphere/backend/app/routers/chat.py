@@ -31,7 +31,11 @@ async def chat(body: ChatIn, db: Session = Depends(get_db),
 
     route = rag.route(body.question)
     if route in ("weather", "farm_satellite"):
-        context["weather"] = await weather_service.fetch(28.669, 77.453)
+        farm = cycle.farm if body.crop_cycle_id and cycle else None
+        context["weather"] = await weather_service.fetch(
+            farm.latitude if farm and farm.latitude is not None else 28.669,
+            farm.longitude if farm and farm.longitude is not None else 77.453,
+        )
 
     result = rag.generate(body.question, crop, context)
 

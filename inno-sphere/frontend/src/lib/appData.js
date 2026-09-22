@@ -4,6 +4,16 @@ export const CROPS = {
   tomato: { name: "Tomato", stages: ["Seedling", "Vegetative", "Flowering", "Fruiting", "Harvest"] },
   wheat: { name: "Wheat", stages: ["Tillering", "Jointing", "Booting", "Heading", "Grain fill"] },
   potato: { name: "Potato", stages: ["Emergence", "Vegetative", "Tuber initiation", "Bulking", "Maturity"] },
+  rice: { name: "Rice", stages: ["Nursery", "Tillering", "Panicle initiation", "Flowering", "Grain filling", "Harvest"] },
+  maize: { name: "Maize", stages: ["Seedling", "Vegetative", "Tasseling", "Silking", "Grain filling", "Harvest"] },
+  cotton: { name: "Cotton", stages: ["Seedling", "Vegetative", "Square formation", "Flowering", "Boll development", "Harvest"] },
+  sugarcane: { name: "Sugarcane", stages: ["Germination", "Tillering", "Grand growth", "Maturity", "Harvest"] },
+  onion: { name: "Onion", stages: ["Nursery", "Vegetative", "Bulbing", "Maturity", "Harvest"] },
+  chilli: { name: "Chilli", stages: ["Seedling", "Vegetative", "Flowering", "Fruiting", "Harvest"] },
+  mustard: { name: "Mustard", stages: ["Rosette", "Branching", "Flowering", "Pod formation", "Maturity"] },
+  chickpea: { name: "Chickpea", stages: ["Seedling", "Vegetative", "Flowering", "Pod filling", "Maturity"] },
+  groundnut: { name: "Groundnut", stages: ["Seedling", "Vegetative", "Flowering", "Pegging", "Pod filling", "Harvest"] },
+  soybean: { name: "Soybean", stages: ["Seedling", "Vegetative", "Flowering", "Pod filling", "Maturity"] },
 };
 
 export const VIEWS = [

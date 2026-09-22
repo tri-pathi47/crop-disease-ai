@@ -33,6 +33,15 @@ class FarmerOut(BaseModel):
         from_attributes = True
 
 
+class FarmerUpdate(BaseModel):
+    name: str | None = None
+    state: str | None = None
+    district: str | None = None
+    village: str | None = None
+    land_area_ha: float | None = None
+    experience_years: int | None = None
+
+
 class FarmIn(BaseModel):
     name: str
     latitude: float | None = None

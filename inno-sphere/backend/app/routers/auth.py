@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from ..config import settings
 from ..database import get_db
 from ..models import User
-from ..schemas import RegisterIn, LoginIn, Token, FarmerOut
+from ..schemas import RegisterIn, LoginIn, Token, FarmerOut, FarmerUpdate
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 # Keep bcrypt verification for legacy accounts, but use PBKDF2 for new users.
@@ -71,4 +71,13 @@ def login(body: LoginIn, db: Session = Depends(get_db)):
 
 @router.get("/me", response_model=FarmerOut)
 def me(user: User = Depends(current_user)):
+    return user
+
+
+@router.put("/me", response_model=FarmerOut)
+def update_me(body: FarmerUpdate, db: Session = Depends(get_db),
+              user: User = Depends(current_user)):
+    for key, value in body.model_dump(exclude_unset=True).items():
+        setattr(user, key, value)
+    db.commit()
     return user

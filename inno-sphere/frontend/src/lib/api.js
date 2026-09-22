@@ -35,10 +35,13 @@ export const api = {
   register: (b) => request("/auth/register", { method: "POST", body: b }),
   login: (b) => request("/auth/login", { method: "POST", body: b }),
   me: () => request("/auth/me"),
+  updateMe: (b) => request("/auth/me", { method: "PUT", body: b }),
 
   farms: () => request("/farms"),
   createFarm: (b) => request("/farms", { method: "POST", body: b }),
+  updateFarm: (id, b) => request(`/farms/${id}`, { method: "PUT", body: b }),
   crops: (farmId) => request(`/crops?farm_id=${farmId}`),
+  updateCrop: (id, b) => request(`/crops/${id}`, { method: "PUT", body: b }),
   soil: (farmId) => request(`/soil/${farmId}`),
   saveSoil: (b) => request("/soil", { method: "POST", body: b }),
 

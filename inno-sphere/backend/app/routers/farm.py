@@ -54,6 +54,19 @@ def create_crop(body: CropIn, db: Session = Depends(get_db),
     return cycle
 
 
+@router.put("/crops/{crop_id}", response_model=CropOut)
+def update_crop(crop_id: int, body: CropIn, db: Session = Depends(get_db),
+                user: User = Depends(current_user)):
+    cycle = db.get(CropCycle, crop_id)
+    if not cycle or cycle.farm.user_id != user.id or cycle.farm_id != body.farm_id:
+        raise HTTPException(404, "Crop cycle not found.")
+    for key, value in body.model_dump().items():
+        if key != "farm_id":
+            setattr(cycle, key, value)
+    db.commit()
+    return cycle
+
+
 @router.post("/soil")
 def add_soil(body: SoilIn, db: Session = Depends(get_db),
              user: User = Depends(current_user)):

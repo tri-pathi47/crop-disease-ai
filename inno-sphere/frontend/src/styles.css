@@ -50,6 +50,7 @@ button{font:inherit;color:inherit}
 .brand b{font-size:1.02rem; white-space:nowrap}
 .brand span{display:none; font-weight:500; color:var(--ink-3); font-size:.78rem}
 .topbar .spacer{flex:1}
+.local-time{color:var(--ink-2);font-size:.78rem;font-variant-numeric:tabular-nums;white-space:nowrap}
 .pill{
   display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line);
   background:var(--surface-2); border-radius:999px; padding:7px 12px; font-size:.82rem;
@@ -94,6 +95,7 @@ button{font:inherit;color:inherit}
   .topbar{padding:12px 30px}
   .topbar .brand{display:none}
 }
+@media (max-width:520px){.local-time{display:none}}
 @media (prefers-color-scheme:dark){
   .rail .nav[aria-current="page"]{color:#9fdcb8}
 }

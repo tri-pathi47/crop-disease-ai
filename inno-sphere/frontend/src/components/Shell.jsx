@@ -2,6 +2,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { Icons } from "./Icons.jsx";
 import { LANGUAGES, makeT } from "../lib/i18n.js";
 import { useFarm } from "../lib/useFarm.jsx";
+import { useEffect, useState } from "react";
 
 export const NAV = [
   { to: "/", key: "home", label: "Home", icon: "home", group: "Every day" },
@@ -25,6 +26,8 @@ export default function Shell({ children }) {
   const { lang, expert, set } = useFarm();
   const t = makeT(lang);
   const { pathname } = useLocation();
+  const [now, setNow] = useState(new Date());
+  useEffect(() => { const id = setInterval(() => setNow(new Date()), 60000); return () => clearInterval(id); }, []);
   const groups = [...new Set(NAV.map((n) => n.group))];
 
   return (
@@ -63,6 +66,9 @@ export default function Shell({ children }) {
               <b>Inno Sphere</b>
             </div>
             <div className="spacer" />
+            <time className="local-time" dateTime={now.toISOString()}>
+              {now.toLocaleDateString(undefined, { day: "numeric", month: "short" })} · {now.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })}
+            </time>
             <select aria-label="Language" value={lang}
               onChange={(e) => set({ lang: e.target.value })}
               style={{ width: "auto", margin: 0, padding: "8px 10px", fontSize: ".84rem", fontWeight: 600 }}>
