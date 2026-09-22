@@ -13,7 +13,8 @@ from ..models import User
 from ..schemas import RegisterIn, LoginIn, Token, FarmerOut
 
 router = APIRouter(prefix="/auth", tags=["auth"])
-pwd = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Keep bcrypt verification for legacy accounts, but use PBKDF2 for new users.
+pwd = CryptContext(schemes=["pbkdf2_sha256", "bcrypt"], deprecated="auto")
 oauth2 = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
@@ -47,8 +48,12 @@ def register(body: RegisterIn, db: Session = Depends(get_db)):
     # accounts authenticate by name and receive an internal unique value here.
     user = User(phone=f"acct-{uuid4().hex[:15]}", password_hash=pwd.hash(body.password),
                 name=body.name, language=body.language, voice_language=body.language)
-    db.add(user)
-    db.commit()
+    try:
+        db.add(user)
+        db.commit()
+    except Exception as exc:
+        db.rollback()
+        raise HTTPException(503, "Account storage is temporarily unavailable. Please try again.") from exc
     return Token(access_token=make_token(user.id))
 
 
@@ -60,7 +65,7 @@ def login(body: LoginIn, db: Session = Depends(get_db)):
     if not user and body.phone:
         user = db.query(User).filter_by(phone=body.phone).first()
     if not user or not pwd.verify(body.password, user.password_hash):
-        raise HTTPException(401, "Phone number or password is incorrect.")
+        raise HTTPException(401, "Name or password is incorrect.")
     return Token(access_token=make_token(user.id))
 
 
