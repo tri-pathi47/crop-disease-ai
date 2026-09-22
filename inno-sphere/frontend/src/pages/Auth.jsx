@@ -4,16 +4,21 @@ import { useAuth } from "../lib/auth.jsx";
 export default function Auth() {
   const { login, register } = useAuth();
   const [mode, setMode] = useState("login");
-  const [form, setForm] = useState({ name: "", phone: "", password: "" });
+  const [form, setForm] = useState({ name: "", password: "", confirmPassword: "" });
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
   async function submit(event) {
     event.preventDefault();
     setError("");
+    if (mode === "register" && form.password !== form.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
     setBusy(true);
     try {
-      await (mode === "login" ? login(form) : register({ ...form, language: "en" }));
+      const credentials = { name: form.name, password: form.password };
+      await (mode === "login" ? login(credentials) : register({ ...credentials, language: "en" }));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -31,12 +36,15 @@ export default function Auth() {
           {mode === "register" && <label className="field">Your name
             <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
           </label>}
-          <label className="field">Phone number
-            <input required inputMode="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+          <label className="field">Your name
+            <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
           </label>
           <label className="field">Password
             <input required minLength="6" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
           </label>
+          {mode === "register" && <label className="field">Confirm password
+            <input required minLength="6" type="password" value={form.confirmPassword} onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })} />
+          </label>}
           {error && <p className="error" role="alert">{error}</p>}
           <button className="btn" disabled={busy}>{busy ? "Connecting..." : mode === "login" ? "Sign in" : "Create account"}</button>
         </form>

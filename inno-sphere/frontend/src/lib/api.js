@@ -11,11 +11,16 @@ async function request(path, { method = "GET", body, form } = {}) {
   if (t) headers.Authorization = `Bearer ${t}`;
   if (body) headers["Content-Type"] = "application/json";
 
-  const res = await fetch(`${BASE}${path}`, {
-    method,
-    headers,
-    body: form ? form : body ? JSON.stringify(body) : undefined,
-  });
+  let res;
+  try {
+    res = await fetch(`${BASE}${path}`, {
+      method,
+      headers,
+      body: form ? form : body ? JSON.stringify(body) : undefined,
+    });
+  } catch {
+    throw new Error("The service is waking up or temporarily unreachable. Please try again in a moment.");
+  }
   if (!res.ok) {
     const detail = await res.json().catch(() => ({}));
     throw new Error(detail.detail || `Request failed (${res.status})`);

@@ -3,15 +3,15 @@ from pydantic import BaseModel, Field
 
 
 class RegisterIn(BaseModel):
-    phone: str
+    name: str
     password: str
-    name: str = "Farmer"
     language: str = "hi"
 
 
 class LoginIn(BaseModel):
-    phone: str
+    name: str | None = None
     password: str
+    phone: str | None = None
 
 
 class Token(BaseModel):
