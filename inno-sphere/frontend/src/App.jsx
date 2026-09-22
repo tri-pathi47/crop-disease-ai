@@ -7,7 +7,6 @@ import Home from "./pages/Home.jsx";
 import Analyse from "./pages/Analyse.jsx";
 import Result from "./pages/Result.jsx";
 import Chat from "./pages/Chat.jsx";
-import Voice from "./pages/Voice.jsx";
 import FarmMap from "./pages/FarmMap.jsx";
 import Satellite from "./pages/Satellite.jsx";
 import Soil from "./pages/Soil.jsx";
@@ -38,7 +37,7 @@ function AppContent() {
           <Route path="/analyse" element={<Analyse onResult={setResult} />} />
           <Route path="/result" element={<Result result={result} />} />
           <Route path="/chat" element={<Chat />} />
-          <Route path="/voice" element={<Voice />} />
+          <Route path="/voice" element={<Chat />} />
           <Route path="/map" element={<FarmMap />} />
           <Route path="/satellite" element={<Satellite />} />
           <Route path="/soil" element={<Soil />} />

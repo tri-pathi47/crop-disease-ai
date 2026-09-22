@@ -4,7 +4,7 @@ import { Sources } from "../components/Ui.jsx";
 import Empty from "../components/Empty.jsx";
 import { api } from "../lib/api.js";
 import { useFarm } from "../lib/useFarm.jsx";
-import { CROPS, SOURCES } from "../lib/appData.js";
+import { cropInfo, SOURCES } from "../lib/appData.js";
 
 export default function Reports({ result }) {
   const { farm } = useFarm();
@@ -35,7 +35,7 @@ export default function Reports({ result }) {
 
       {latest && (
         <div className="card">
-          <div className="kv"><span>Crop</span><b>{CROPS[farm.crop]?.name} ({farm.variety})</b></div>
+          <div className="kv"><span>Crop</span><b>{cropInfo(farm.crop).name} ({farm.variety || "not specified"})</b></div>
           <div className="kv"><span>Growth stage</span><b>{farm.stage}</b></div>
           <div className="kv"><span>Main finding</span><b>{latest.primary}</b></div>
           <div className="kv"><span>Severity</span><b>{latest.severity === "risk" ? "High" : latest.severity === "watch" ? "Moderate" : "Low"}</b></div>

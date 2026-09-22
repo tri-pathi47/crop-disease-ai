@@ -82,11 +82,6 @@ export default function Profile() {
         <div className="card">
           <h3>Farm</h3>
           {field("Farm name", farm.name, (v) => setFarm({ name: v }))}
-          <label className="field">Crop
-            <select value={farm.crop} onChange={(e) => setFarm({ crop: e.target.value, stage: CROPS[e.target.value].stages[0] })}>
-              {Object.entries(CROPS).map(([k, c]) => <option key={k} value={k}>{c.name}</option>)}
-            </select>
-          </label>
           {field("Variety", farm.variety, (v) => setFarm({ variety: v }))}
           <label className="field">Growth stage
             <select value={farm.stage} onChange={(e) => setFarm({ stage: e.target.value })}>

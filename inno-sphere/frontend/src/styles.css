@@ -180,10 +180,13 @@ th{font-size:.74rem; color:var(--ink-3)}
 .msg.ai .src{margin-top:10px; padding-top:9px; border-top:1px solid var(--line); font-size:.76rem; color:var(--ink-3)}
 .composer{position:sticky; bottom:0; background:var(--bg); padding-top:10px}
 .composer .box{display:flex; gap:8px; align-items:flex-end; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-m); padding:8px}
+.assistant-context{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px}
+.assistant-context .field{flex:1;margin:0}
 .composer textarea{border:0; background:none; resize:none; margin:0; padding:8px; max-height:120px}
 .iconbtn{border:1px solid var(--line); background:var(--surface-2); border-radius:10px; width:44px; height:44px; display:grid; place-items:center; cursor:pointer; flex:none}
 .iconbtn svg{width:20px;height:20px}
 .iconbtn.send{background:var(--leaf); border-color:var(--leaf); color:#fff}
+.iconbtn.listening{background:var(--risk);border-color:var(--risk);color:#fff}
 
 /* map */
 .fieldmap{display:grid; grid-template-columns:repeat(4,1fr); gap:4px; border-radius:var(--r-m); overflow:hidden; aspect-ratio:4/3; max-width:520px}
@@ -201,3 +204,4 @@ th{font-size:.74rem; color:var(--ink-3)}
 .tl li{position:relative; padding:0 0 18px 6px}
 .tl li::before{content:""; position:absolute; left:-29px; top:5px; width:12px; height:12px; border-radius:50%; background:var(--leaf); border:2px solid var(--surface)}
 .tl .d{font-size:.76rem; color:var(--ink-3); font-weight:700}
+@media (max-width:520px){.assistant-context{display:block}.assistant-context .muted{display:block;margin-top:8px}}

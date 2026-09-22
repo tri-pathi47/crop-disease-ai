@@ -63,7 +63,7 @@ export default function Home() {
         <button className="btn" onClick={() => nav("/analyse")}><Icons.cam width="20" height="20" /> {t("check")}</button>
         <button className="btn ghost" onClick={() => nav("/chat")}><Icons.chat width="20" height="20" /> {t("ask")}</button>
         <button className="btn ghost" onClick={() => nav("/map")}><Icons.map width="20" height="20" /> {t("map")}</button>
-        <button className="btn soil" onClick={() => nav("/voice")}><Icons.mic width="20" height="20" /> {t("speak")}</button>
+        <button className="btn soil" onClick={() => nav("/chat")}><Icons.mic width="20" height="20" /> {t("speak")}</button>
       </div>
 
       <h2>Needs your attention</h2>

@@ -18,6 +18,8 @@ const STRINGS = {
     askPlaceholder: "Ask about your crop...",
     sampleQuestion: "My crop leaves are turning yellow, what should I do?",
     speakHint: "Tap and describe the problem in your own words",
+    assistantTitle: "Farm assistant", assistantHint: "Ask, speak, or send a crop photo in one place.",
+    cropLabel: "Crop", cropPlaceholder: "Type any crop", voiceLabel: "Speak", photoLabel: "Send a photo", sendLabel: "Send",
   },
   hi: {
     greetMorning: "सुप्रभात", greetAfternoon: "नमस्कार", greetEvening: "शुभ संध्या", greetNight: "शुभ रात्रि",
@@ -28,6 +30,8 @@ const STRINGS = {
     askPlaceholder: "अपनी फसल के बारे में पूछें...",
     sampleQuestion: "मेरी फसल के पत्ते पीले हो रहे हैं, क्या करूं?",
     speakHint: "दबाएं और अपनी भाषा में समस्या बताएं",
+    assistantTitle: "खेत सहायक", assistantHint: "एक ही जगह पूछें, बोलें या फसल की फोटो भेजें।",
+    cropLabel: "फसल", cropPlaceholder: "कोई भी फसल लिखें", voiceLabel: "बोलें", photoLabel: "फोटो भेजें", sendLabel: "भेजें",
   },
   mr: {
     greetMorning: "सुप्रभात", greetAfternoon: "नमस्कार", greetEvening: "शुभ संध्याकाळ", greetNight: "शुभ रात्री",
@@ -38,6 +42,8 @@ const STRINGS = {
     askPlaceholder: "तुमच्या पिकाबद्दल विचारा...",
     sampleQuestion: "माझ्या पिकाची पाने पिवळी होत आहेत, काय करू?",
     speakHint: "दाबा आणि तुमच्या भाषेत समस्या सांगा",
+    assistantTitle: "शेत सहाय्यक", assistantHint: "एकाच ठिकाणी विचारा, बोला किंवा पिकाचा फोटो पाठवा.",
+    cropLabel: "पीक", cropPlaceholder: "कोणतेही पीक लिहा", voiceLabel: "बोला", photoLabel: "फोटो पाठवा", sendLabel: "पाठवा",
   },
   bn: {
     greetMorning: "সুপ্রভাত", greetAfternoon: "শুভ অপরাহ্ন", greetEvening: "শুভ সন্ধ্যা", greetNight: "শুভ রাত্রি",
@@ -48,6 +54,8 @@ const STRINGS = {
     askPlaceholder: "আপনার ফসল সম্পর্কে জিজ্ঞাসা করুন...",
     sampleQuestion: "আমার ফসলের পাতা হলুদ হয়ে যাচ্ছে, কী করব?",
     speakHint: "চাপুন এবং নিজের ভাষায় সমস্যা বলুন",
+    assistantTitle: "খেত সহায়ক", assistantHint: "এক জায়গায় জিজ্ঞাসা করুন, বলুন বা ফসলের ছবি পাঠান।",
+    cropLabel: "ফসল", cropPlaceholder: "যেকোনো ফসল লিখুন", voiceLabel: "বলুন", photoLabel: "ছবি পাঠান", sendLabel: "পাঠান",
   },
   ta: {
     greetMorning: "காலை வணக்கம்", greetAfternoon: "மதிய வணக்கம்", greetEvening: "மாலை வணக்கம்", greetNight: "இனிய இரவு",
@@ -58,6 +66,8 @@ const STRINGS = {
     askPlaceholder: "உங்கள் பயிர் பற்றி கேளுங்கள்...",
     sampleQuestion: "என் பயிரின் இலைகள் மஞ்சளாகின்றன, என்ன செய்வது?",
     speakHint: "அழுத்தி உங்கள் மொழியில் பிரச்னையைச் சொல்லுங்கள்",
+    assistantTitle: "வயல் உதவியாளர்", assistantHint: "ஒரே இடத்தில் கேளுங்கள், பேசுங்கள் அல்லது பயிர் படத்தை அனுப்புங்கள்.",
+    cropLabel: "பயிர்", cropPlaceholder: "எந்த பயிரையும் எழுதுங்கள்", voiceLabel: "பேசுங்கள்", photoLabel: "படம் அனுப்புங்கள்", sendLabel: "அனுப்பு",
   },
   pa: {
     greetMorning: "ਸ਼ੁਭ ਸਵੇਰ", greetAfternoon: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ", greetEvening: "ਸ਼ੁਭ ਸ਼ਾਮ", greetNight: "ਸ਼ੁਭ ਰਾਤਰੀ",
@@ -68,6 +78,8 @@ const STRINGS = {
     askPlaceholder: "ਆਪਣੀ ਫ਼ਸਲ ਬਾਰੇ ਪੁੱਛੋ...",
     sampleQuestion: "ਮੇਰੀ ਫ਼ਸਲ ਦੇ ਪੱਤੇ ਪੀਲੇ ਹੋ ਰਹੇ ਹਨ, ਕੀ ਕਰਾਂ?",
     speakHint: "ਦਬਾਓ ਅਤੇ ਆਪਣੀ ਭਾਸ਼ਾ ਵਿੱਚ ਦੱਸੋ",
+    assistantTitle: "ਖੇਤ ਸਹਾਇਕ", assistantHint: "ਇੱਕੋ ਥਾਂ ਪੁੱਛੋ, ਬੋਲੋ ਜਾਂ ਫ਼ਸਲ ਦੀ ਤਸਵੀਰ ਭੇਜੋ।",
+    cropLabel: "ਫ਼ਸਲ", cropPlaceholder: "ਕੋਈ ਵੀ ਫ਼ਸਲ ਲਿਖੋ", voiceLabel: "ਬੋਲੋ", photoLabel: "ਤਸਵੀਰ ਭੇਜੋ", sendLabel: "ਭੇਜੋ",
   },
 };
 

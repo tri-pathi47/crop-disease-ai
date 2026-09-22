@@ -9,7 +9,6 @@ export const NAV = [
   { to: "/analyse", key: "analyse", label: "Check crop", icon: "cam", group: "Every day" },
   { to: "/chat", key: "chat", label: "Assistant", icon: "chat", group: "Every day" },
   { to: "/map", key: "map", label: "Farm map", icon: "map", group: "Every day" },
-  { to: "/voice", key: "voice", label: "Voice", icon: "mic", group: "Every day" },
   { to: "/soil", key: "soil", label: "Soil", icon: "soil", group: "Field intelligence" },
   { to: "/weather", key: "weather", label: "Weather", icon: "sun", group: "Field intelligence" },
   { to: "/satellite", key: "satellite", label: "Satellite", icon: "sat", group: "Field intelligence" },

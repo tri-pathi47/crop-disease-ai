@@ -2,16 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Icons } from "../components/Icons.jsx";
 import { api } from "../lib/api.js";
-import { makeT } from "../lib/i18n.js";
+import { makeT, SPEECH_LOCALE } from "../lib/i18n.js";
 import { useFarm } from "../lib/useFarm.jsx";
+import { CROPS, cropInfo } from "../lib/appData.js";
 
 export default function Chat() {
-  const { lang, farm } = useFarm();
+  const { lang, farm, setFarm } = useFarm();
   const t = makeT(lang);
   const nav = useNavigate();
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
+  const [listening, setListening] = useState(false);
+  const recognition = useRef(null);
   const end = useRef(null);
 
   useEffect(() => {
@@ -44,13 +47,42 @@ export default function Chat() {
     }
   }
 
+  function toggleVoice() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setMessages((m) => [...m, { role: "assistant", text: "Voice input is not available in this browser. You can type your question instead." }]);
+      return;
+    }
+    if (listening) { recognition.current?.stop(); setListening(false); return; }
+    const recorder = new SpeechRecognition();
+    recorder.lang = SPEECH_LOCALE[lang] || "en-IN";
+    recorder.onresult = (event) => setDraft(event.results[0][0].transcript);
+    recorder.onerror = () => setListening(false);
+    recorder.onend = () => setListening(false);
+    recognition.current = recorder;
+    recorder.start();
+    setListening(true);
+  }
+
   return (
     <>
-      <h1>Farm assistant</h1>
-      <p className="lede">Ask in your own words. Answers use your farm record, current weather and the crop knowledge base.</p>
+      <h1>{t("assistantTitle")}</h1>
+      <p className="lede">{t("assistantHint")}</p>
+
+      <div className="card assistant-context">
+        <label className="field">{t("cropLabel")}
+          <input list="assistant-crops" value={farm.crop}
+            onChange={(event) => setFarm({ crop: event.target.value, stage: cropInfo(event.target.value).stages[0] })}
+            placeholder={t("cropPlaceholder")} />
+          <datalist id="assistant-crops">
+            {Object.entries(CROPS).map(([key, crop]) => <option key={key} value={crop.name} />)}
+          </datalist>
+        </label>
+        <span className="muted">{cropInfo(farm.crop).name} · {farm.stage} · {farm.name}</span>
+      </div>
 
       <div className="chips" style={{ marginBottom: 14 }}>
-        {[t("sampleQuestion"), "What is happening in my field?", "Which pest attacks tomato at flowering?"].map((q) => (
+        {[t("sampleQuestion"), "What is happening in my field?", `Which pest attacks ${cropInfo(farm.crop).name} at flowering?`].map((q) => (
           <button className="chip" key={q} onClick={() => send(q)}>{q}</button>
         ))}
       </div>
@@ -73,12 +105,12 @@ export default function Chat() {
 
       <div className="composer">
         <div className="box">
-          <button className="iconbtn" onClick={() => nav("/voice")} aria-label="Voice"><Icons.mic width="20" height="20" /></button>
-          <button className="iconbtn" onClick={() => nav("/analyse")} aria-label="Photo"><Icons.cam width="20" height="20" /></button>
+          <button className={`iconbtn ${listening ? "listening" : ""}`} onClick={toggleVoice} aria-label={t("voiceLabel")}><Icons.mic width="20" height="20" /></button>
+          <button className="iconbtn" onClick={() => nav("/analyse")} aria-label={t("photoLabel")}><Icons.cam width="20" height="20" /></button>
           <textarea rows="1" value={draft} placeholder={t("askPlaceholder")}
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }} />
-          <button className="iconbtn send" onClick={() => send()} aria-label="Send"><Icons.send width="20" height="20" /></button>
+          <button className="iconbtn send" onClick={() => send()} aria-label={t("sendLabel")}><Icons.send width="20" height="20" /></button>
         </div>
       </div>
     </>

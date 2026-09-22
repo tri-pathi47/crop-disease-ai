@@ -4,7 +4,7 @@ import { Banner, Sources, Status } from "../components/Ui.jsx";
 import Empty from "../components/Empty.jsx";
 import { drawOverlay } from "../lib/imageCheck.js";
 import { useFarm } from "../lib/useFarm.jsx";
-import { CROPS, SOURCES } from "../lib/appData.js";
+import { cropInfo, SOURCES } from "../lib/appData.js";
 
 export default function Result({ result }) {
   const { lang, expert, farm, set } = useFarm();
@@ -50,7 +50,7 @@ export default function Result({ result }) {
     <>
       <h1>Assessment</h1>
       <p className="lede">
-        {CROPS[farm.crop]?.name} · {farm.stage} · from {result.evidence[0]?.value}
+        {cropInfo(farm.crop).name} · {farm.stage} · from {result.evidence[0]?.value}
       </p>
 
       <div className="card" style={{ borderLeft: `4px solid ${result.severity === "risk" ? "var(--risk)" : result.severity === "watch" ? "var(--wheat)" : "var(--ok)"}` }}>
