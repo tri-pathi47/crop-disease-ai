@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useFarm } from "../lib/useFarm.jsx";
-import { CROPS } from "../lib/appData.js";
+import { CROPS, cropInfo } from "../lib/appData.js";
 import { useAuth } from "../lib/auth.jsx";
 import { api } from "../lib/api.js";
 
@@ -68,9 +68,10 @@ export default function Profile() {
           <h3>Farmer</h3>
           {field("Name", farmer.name, (v) => setFarmer({ name: v }))}
           {field("State", farmer.state, (v) => setFarmer({ state: v }))}
-          {field("District", farmer.district, (v) => setFarmer({ district: v }))}
+            <input list="profile-crop-suggestions" value={farm.crop} onChange={(e) => setFarm({ crop: e.target.value, stage: cropInfo(e.target.value).stages[0] })} placeholder="Type any crop" />
+            <datalist id="profile-crop-suggestions">
           {field("Village or region (optional)", farmer.village, (v) => setFarmer({ village: v }))}
-          {field("Land area (hectares)", farmer.area, (v) => setFarmer({ area: v }))}
+            </datalist>
           {field("Years of farming", farmer.experience, (v) => setFarmer({ experience: v }))}
           <label className="field">Answer style
             <select><option>Voice and text</option><option>Voice only</option><option>Text only</option></select>
@@ -89,7 +90,7 @@ export default function Profile() {
           {field("Variety", farm.variety, (v) => setFarm({ variety: v }))}
           <label className="field">Growth stage
             <select value={farm.stage} onChange={(e) => setFarm({ stage: e.target.value })}>
-              {CROPS[farm.crop].stages.map((s) => <option key={s}>{s}</option>)}
+              {cropInfo(farm.crop).stages.map((s) => <option key={s}>{s}</option>)}
             </select>
           </label>
           {field("Sowing date", farm.sown, (v) => setFarm({ sown: v }), "date")}

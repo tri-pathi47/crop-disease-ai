@@ -5,7 +5,7 @@ import { Status, Tile, Banner } from "../components/Ui.jsx";
 import { api } from "../lib/api.js";
 import { makeT } from "../lib/i18n.js";
 import { useFarm } from "../lib/useFarm.jsx";
-import { CROPS } from "../lib/appData.js";
+import { cropInfo } from "../lib/appData.js";
 
 export default function Home() {
   const { lang, farmer, farm } = useFarm();
@@ -40,7 +40,7 @@ export default function Home() {
     <>
       <h1>{greeting}, {farmer.name}</h1>
       <p className="lede">
-        {farm.name} · {CROPS[farm.crop]?.name} · {farm.stage} stage · {farmer.district}
+        {farm.name} · {cropInfo(farm.crop).name} · {farm.stage} stage · {farmer.district}
       </p>
 
       <div className="grid g4">

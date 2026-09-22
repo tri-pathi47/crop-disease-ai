@@ -16,6 +16,13 @@ export const CROPS = {
   soybean: { name: "Soybean", stages: ["Seedling", "Vegetative", "Flowering", "Pod filling", "Maturity"] },
 };
 
+export const GENERIC_STAGES = ["Seedling", "Vegetative", "Flowering", "Fruiting", "Maturity", "Harvest"];
+
+export function cropInfo(crop) {
+  const key = String(crop || "").trim().toLowerCase();
+  return CROPS[key] || { name: crop || "Your crop", stages: GENERIC_STAGES };
+}
+
 export const VIEWS = [
   { key: "whole", label: "Whole plant" },
   { key: "top", label: "Leaf top" },

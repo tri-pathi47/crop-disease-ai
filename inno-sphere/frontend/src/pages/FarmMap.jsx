@@ -4,7 +4,7 @@ import { Banner, Status, zoneColor } from "../components/Ui.jsx";
 import Empty from "../components/Empty.jsx";
 import { api } from "../lib/api.js";
 import { useFarm } from "../lib/useFarm.jsx";
-import { CROPS } from "../lib/appData.js";
+import { cropInfo } from "../lib/appData.js";
 
 export default function FarmMap() {
   const { farm, farmer } = useFarm();
@@ -50,7 +50,7 @@ export default function FarmMap() {
                 <Status level={zone.status}>
                   {zone.status === "ok" ? "Normal" : zone.status === "watch" ? "Monitor" : "Stress detected"}
                 </Status>
-                <div className="kv" style={{ marginTop: 10 }}><span>Crop</span><b>{CROPS[farm.crop]?.name}</b></div>
+                <div className="kv" style={{ marginTop: 10 }}><span>Crop</span><b>{cropInfo(farm.crop).name}</b></div>
                 <div className="kv"><span>Vegetation index</span><b>{zone.ndvi?.toFixed(2)}</b></div>
                 <div className="kv"><span>Suggested action</span><b>{zone.status === "ok" ? "No action" : "Walk this zone and photograph five plants"}</b></div>
                 <button className="btn" style={{ marginTop: 12 }} onClick={() => nav("/analyse")}>Send photos from this zone</button>

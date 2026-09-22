@@ -95,8 +95,13 @@ def _compose(kind: str, chunks: list[dict], ctx: dict) -> str:
                 f"It is favoured by {c.get('favours') or c.get('season')}. "
                 "Send a photo of the whole plant and one of the underside of an "
                 "affected leaf so this can be narrowed down instead of guessed.")
-    return ("Yellow leaves have at least four common explanations: a fungal "
+    return (f"For {ctx.get('crop', crop_name(ctx))}, the photo and description do not yet match a verified crop-specific knowledge entry. "
+            "Yellow leaves have at least four common explanations: a fungal "
             "disease, a nutrient shortage, water or heat stress, and insect "
             "feeding. They are separated by where the yellowing starts, its "
             "pattern, and what the weather has been doing. A photo of the whole "
-            "plant and the leaf underside would let me narrow it down.")
+            "plant, the leaf underside, and the crop growth stage would let me narrow it down safely.")
+
+
+def crop_name(ctx: dict) -> str:
+    return ctx.get("crop") or "this crop"

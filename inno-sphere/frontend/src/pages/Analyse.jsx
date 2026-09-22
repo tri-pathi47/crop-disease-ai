@@ -5,7 +5,7 @@ import { Banner } from "../components/Ui.jsx";
 import { api } from "../lib/api.js";
 import { checkImage, lesionMap } from "../lib/imageCheck.js";
 import { useFarm } from "../lib/useFarm.jsx";
-import { CROPS, VIEWS } from "../lib/appData.js";
+import { CROPS, VIEWS, cropInfo } from "../lib/appData.js";
 
 const RETAKE = {
   en: "Please retake the photo in better lighting and keep the affected plant area clearly visible.",
@@ -48,6 +48,7 @@ export default function Analyse({ onResult }) {
 
   const poor = Object.entries(photos).filter(([, p]) => !p.quality.usable);
   const count = Object.keys(photos).length;
+  const selectedCrop = cropInfo(farm.crop);
 
   async function analyse() {
     setError(null);
@@ -105,13 +106,14 @@ export default function Analyse({ onResult }) {
       <div className="card" style={{ marginBottom: 14 }}>
         <div className="grid g2">
           <label className="field">Crop
-            <select value={farm.crop} onChange={(e) => setFarm({ crop: e.target.value, stage: CROPS[e.target.value].stages[0] })}>
+            <input list="crop-suggestions" value={farm.crop} onChange={(e) => setFarm({ crop: e.target.value, stage: cropInfo(e.target.value).stages[0] })} placeholder="Type any crop" />
+            <datalist id="crop-suggestions">
               {Object.entries(CROPS).map(([k, c]) => <option key={k} value={k}>{c.name}</option>)}
-            </select>
+            </datalist>
           </label>
           <label className="field">Growth stage
             <select value={farm.stage} onChange={(e) => setFarm({ stage: e.target.value })}>
-              {CROPS[farm.crop].stages.map((s) => <option key={s}>{s}</option>)}
+              {selectedCrop.stages.map((s) => <option key={s}>{s}</option>)}
             </select>
           </label>
         </div>
