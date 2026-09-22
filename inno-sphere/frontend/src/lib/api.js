@@ -65,3 +65,7 @@ export const api = {
 export function setToken(t) {
   try { localStorage.setItem("inno.token", t); } catch {}
 }
+
+export function clearToken() {
+  try { localStorage.removeItem("inno.token"); } catch {}
+}

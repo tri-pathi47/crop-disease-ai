@@ -20,6 +20,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
+        "https://inno-sphere-web.onrender.com",
         *([settings.frontend_url.rstrip("/")] if settings.frontend_url else []),
     ],
     allow_credentials=True,

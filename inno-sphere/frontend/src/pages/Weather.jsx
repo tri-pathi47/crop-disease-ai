@@ -9,7 +9,13 @@ export default function Weather() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    api.weather(farm.lat, farm.lng).then(setWx).catch((e) => setError(e.message));
+    api.weather(farm.lat, farm.lng).then((data) => {
+      if (!data?.current || !Array.isArray(data.forecast)) {
+        setError(data?.error || "The forecast is temporarily unavailable.");
+        return;
+      }
+      setWx(data);
+    }).catch((e) => setError(e.message));
   }, [farm.lat, farm.lng]);
 
   if (error) return <><h1>Weather</h1><Banner level="risk">Weather is not loading. {error}</Banner></>;

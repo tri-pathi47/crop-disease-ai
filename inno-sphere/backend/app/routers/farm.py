@@ -38,12 +38,16 @@ def update_farm(farm_id: int, body: FarmIn, db: Session = Depends(get_db),
 @router.get("/crops", response_model=list[CropOut])
 def list_crops(farm_id: int, db: Session = Depends(get_db),
                user: User = Depends(current_user)):
+    if not db.query(Farm).filter_by(id=farm_id, user_id=user.id).first():
+        raise HTTPException(404, "Farm not found.")
     return db.query(CropCycle).filter_by(farm_id=farm_id).all()
 
 
 @router.post("/crops", response_model=CropOut)
 def create_crop(body: CropIn, db: Session = Depends(get_db),
                 user: User = Depends(current_user)):
+    if not db.query(Farm).filter_by(id=body.farm_id, user_id=user.id).first():
+        raise HTTPException(404, "Farm not found.")
     cycle = CropCycle(**body.model_dump())
     db.add(cycle)
     db.commit()
@@ -53,6 +57,8 @@ def create_crop(body: CropIn, db: Session = Depends(get_db),
 @router.post("/soil")
 def add_soil(body: SoilIn, db: Session = Depends(get_db),
              user: User = Depends(current_user)):
+    if not db.query(Farm).filter_by(id=body.farm_id, user_id=user.id).first():
+        raise HTTPException(404, "Farm not found.")
     record = SoilRecord(**body.model_dump())
     db.add(record)
     db.commit()
@@ -62,6 +68,8 @@ def add_soil(body: SoilIn, db: Session = Depends(get_db),
 @router.get("/soil/{farm_id}")
 def get_soil(farm_id: int, db: Session = Depends(get_db),
              user: User = Depends(current_user)):
+    if not db.query(Farm).filter_by(id=farm_id, user_id=user.id).first():
+        raise HTTPException(404, "Farm not found.")
     record = (db.query(SoilRecord).filter_by(farm_id=farm_id)
               .order_by(SoilRecord.tested_on.desc()).first())
     if not record:

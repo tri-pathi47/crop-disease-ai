@@ -18,8 +18,14 @@ import Alerts from "./pages/Alerts.jsx";
 import Reports from "./pages/Reports.jsx";
 import Profile from "./pages/Profile.jsx";
 import More from "./pages/More.jsx";
+import Auth from "./pages/Auth.jsx";
+import { AuthProvider, useAuth } from "./lib/auth.jsx";
 
-export default function App() {
+function AppContent() {
+  const { user, loading } = useAuth();
+  if (loading) return <main className="auth-page"><p className="muted">Loading your farm...</p></main>;
+  if (!user) return <Auth />;
+
   // The latest assessment is held here so Result and Reports can both read it
   // without a round trip after the analysis finishes.
   const [result, setResult] = useState(null);
@@ -48,4 +54,8 @@ export default function App() {
       </Shell>
     </FarmProvider>
   );
+}
+
+export default function App() {
+  return <AuthProvider><AppContent /></AuthProvider>;
 }

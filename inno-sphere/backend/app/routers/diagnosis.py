@@ -81,7 +81,7 @@ ACTIONS = {
 async def analyse(body: AnalyseIn, db: Session = Depends(get_db),
                   user: User = Depends(current_user)):
     cycle = db.get(CropCycle, body.crop_cycle_id)
-    if not cycle:
+    if not cycle or cycle.farm.user_id != user.id:
         raise HTTPException(404, "Crop cycle not found.")
 
     images = db.query(CropImage).filter(CropImage.id.in_(body.image_ids)).all()
@@ -103,7 +103,7 @@ async def analyse(body: AnalyseIn, db: Session = Depends(get_db),
     wx = await weather.fetch(cycle.farm.latitude or 28.6, cycle.farm.longitude or 77.4)
     soil = (db.query(SoilRecord).filter_by(farm_id=cycle.farm_id)
             .order_by(SoilRecord.tested_on.desc()).first())
-    sat = satellite.field_zones(cycle.farm_id)
+    sat = await satellite.field_zones(cycle.farm_id)
     views = tuple(i.view_type for i in usable)
 
     ctx = scoring.Context(
@@ -174,6 +174,9 @@ async def analyse(body: AnalyseIn, db: Session = Depends(get_db),
 @router.get("/history/{crop_cycle_id}")
 def history(crop_cycle_id: int, db: Session = Depends(get_db),
             user: User = Depends(current_user)):
+    cycle = db.get(CropCycle, crop_cycle_id)
+    if not cycle or cycle.farm.user_id != user.id:
+        raise HTTPException(404, "Crop cycle not found.")
     rows = (db.query(Diagnosis).filter_by(crop_cycle_id=crop_cycle_id)
             .order_by(Diagnosis.created_at.desc()).all())
     return [{"id": r.id, "date": r.created_at, "finding": r.primary_label,

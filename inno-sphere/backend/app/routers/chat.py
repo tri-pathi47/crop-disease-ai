@@ -19,7 +19,7 @@ async def chat(body: ChatIn, db: Session = Depends(get_db),
 
     if body.crop_cycle_id:
         cycle = db.get(CropCycle, body.crop_cycle_id)
-        if cycle:
+        if cycle and cycle.farm.user_id == user.id:
             crop = cycle.crop
             context["crop"] = {"crop": cycle.crop, "stage": cycle.growth_stage}
             soil = (db.query(SoilRecord).filter_by(farm_id=cycle.farm_id)

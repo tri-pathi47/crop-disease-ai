@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 
 from ..config import settings
 from ..database import get_db
-from ..models import CropImage, User
+from ..models import CropImage, CropCycle, User
 from ..schemas import QualityOut
 from ..services import image_quality, segmentation
 from .auth import current_user
@@ -36,6 +36,9 @@ async def upload(
     db: Session = Depends(get_db),
     user: User = Depends(current_user),
 ):
+    cycle = db.get(CropCycle, crop_cycle_id)
+    if not cycle or cycle.farm.user_id != user.id:
+        raise HTTPException(404, "Crop cycle not found.")
     if view_type not in VIEWS:
         raise HTTPException(400, f"view_type must be one of {sorted(VIEWS)}")
 
@@ -67,7 +70,8 @@ def evidence(image_id: int, db: Session = Depends(get_db),
              user: User = Depends(current_user)):
     """Affected regions tinted over the original photo."""
     row = db.get(CropImage, image_id)
-    if not row:
+    cycle = db.get(CropCycle, row.crop_cycle_id) if row else None
+    if not row or not cycle or cycle.farm.user_id != user.id:
         raise HTTPException(404, "Image not found.")
     img = cv2.imread(row.file_path)
     seg = segmentation.segment(img)

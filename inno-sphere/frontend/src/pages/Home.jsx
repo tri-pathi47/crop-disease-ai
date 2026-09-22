@@ -17,7 +17,13 @@ export default function Home() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    api.weather(farm.lat, farm.lng).then(setWeather).catch(() => setError("weather"));
+    api.weather(farm.lat, farm.lng).then((data) => {
+      if (!data?.current) {
+        setError("weather");
+        return;
+      }
+      setWeather(data);
+    }).catch(() => setError("weather"));
     api.alerts(farm.id).then(setAlerts).catch(() => {});
     api.diagnosisHistory(farm.cropCycleId).then(setTimeline).catch(() => {});
   }, [farm.id, farm.lat, farm.lng, farm.cropCycleId]);
@@ -41,10 +47,10 @@ export default function Home() {
           value={pressure ? pressure[0].toUpperCase() + pressure.slice(1) : "—"}
           sub={weather ? `${weather.humid_nights} humid nights ahead` : "Loading forecast"} />
         <Tile label="Temperature" level="ok"
-          value={weather ? `${weather.current.temp}°C` : "—"}
-          sub={weather ? weather.current.condition : ""} />
-        <Tile label="Humidity" level={weather && weather.current.humidity > 78 ? "watch" : "ok"}
-          value={weather ? `${weather.current.humidity}%` : "—"}
+          value={weather?.current ? `${weather.current.temp}°C` : "—"}
+          sub={weather?.current ? weather.current.condition : "Unavailable"} />
+        <Tile label="Humidity" level={weather?.current && weather.current.humidity > 78 ? "watch" : "ok"}
+          value={weather?.current ? `${weather.current.humidity}%` : "—"}
           sub="Right now at your farm" />
       </div>
 

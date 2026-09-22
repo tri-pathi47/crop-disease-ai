@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useFarm } from "../lib/useFarm.jsx";
 import { CROPS } from "../lib/appData.js";
+import { useAuth } from "../lib/auth.jsx";
 
 export default function Profile() {
   const { farmer, farm, setFarmer, setFarm } = useFarm();
+  const { logout } = useAuth();
   const [saved, setSaved] = useState(false);
 
   const field = (label, value, onChange, type = "text") => (
@@ -67,6 +69,7 @@ export default function Profile() {
           const el = document.documentElement;
           el.dataset.theme = el.dataset.theme === "dark" ? "light" : "dark";
         }}>Switch light / dark</button>
+        <button className="btn ghost" onClick={logout}>Sign out</button>
       </div>
       {saved && <p className="muted" style={{ marginTop: 10 }}>Saved on this device.</p>}
     </>
