@@ -14,7 +14,6 @@ export const NAV = [
   { to: "/satellite", key: "satellite", label: "Satellite", icon: "sat", group: "Field intelligence" },
   { to: "/monitoring", key: "monitoring", label: "Monitoring", icon: "clock", group: "Records" },
   { to: "/alerts", key: "alerts", label: "Alerts", icon: "bell", group: "Records" },
-  { to: "/knowledge", key: "knowledge", label: "Knowledge", icon: "book", group: "Records" },
   { to: "/reports", key: "reports", label: "Reports", icon: "doc", group: "Records" },
   { to: "/profile", key: "profile", label: "Profile", icon: "user", group: "Records" },
 ];
