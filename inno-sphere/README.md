@@ -92,6 +92,22 @@ The model must be trained across the crops and disease classes you claim to
 support. Until both files are configured, the app reports that the CNN is not
 configured and uses its transparent image measurements instead.
 
+### Optional multimodel vision
+
+For YOLO detection/segmentation and PyTorch classification, install the
+separate `backend/requirements-vision.txt` set and configure:
+
+```text
+YOLO_MODEL_PATH=/srv/models/crop-yolo.pt
+PYTORCH_MODEL_PATH=/srv/models/crop-classifier.pt
+PYTORCH_LABELS_PATH=/srv/models/labels.json
+VISION_DEVICE=cpu
+```
+
+The PyTorch file must be a TorchScript model with the matching label list.
+Grad-CAM and YOLO outputs remain disabled until compatible validated weights
+are supplied. The API always retains the OpenCV fallback.
+
 Add this variable to the frontend service, using the API service URL shown by
 Render:
 

@@ -20,6 +20,10 @@ class Settings(BaseSettings):
     cloudinary_api_secret: str | None = None
     cnn_model_path: str | None = None
     cnn_labels_path: str | None = None
+    yolo_model_path: str | None = None
+    pytorch_model_path: str | None = None
+    pytorch_labels_path: str | None = None
+    vision_device: str = "cpu"
 
     # Optional external services. When a key is missing the matching service
     # falls back to clearly-labelled demo data instead of failing.

@@ -25,6 +25,18 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
+      - key: CNN_MODEL_PATH
+        sync: false
+      - key: CNN_LABELS_PATH
+        sync: false
+      - key: YOLO_MODEL_PATH
+        sync: false
+      - key: PYTORCH_MODEL_PATH
+        sync: false
+      - key: PYTORCH_LABELS_PATH
+        sync: false
+      - key: VISION_DEVICE
+        value: cpu
 
   - type: static
     name: inno-sphere-web

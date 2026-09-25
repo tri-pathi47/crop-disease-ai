@@ -1,0 +1,5 @@
+# Optional computer-vision stack. Install this only with validated model files.
+torch==2.4.1
+torchvision==0.19.1
+ultralytics==8.3.0
+grad-cam==1.5.4
