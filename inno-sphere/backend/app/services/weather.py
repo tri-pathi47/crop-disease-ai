@@ -73,7 +73,7 @@ async def fetch(lat: float, lon: float) -> dict:
 
 
 def _demo_fallback(error: str) -> dict:
-    return _with_risk({
+    result = _with_risk({
         "provider": "demo-fallback",
         "error": error,
         "current": {"temp": 30, "humidity": 70, "wind": 8, "condition": "Typical conditions"},
@@ -81,8 +81,9 @@ def _demo_fallback(error: str) -> dict:
             {"day": f"Day {index + 1}", "max": 32, "min": 24, "rain": 20, "humidity": 72}
             for index in range(5)
         ],
-        "note": "Live weather is temporarily unavailable. This estimate is not live evidence.",
     })
+    result["note"] = "Live weather is temporarily unavailable. This estimate is not live evidence."
+    return result
 
 
 WMO = {
