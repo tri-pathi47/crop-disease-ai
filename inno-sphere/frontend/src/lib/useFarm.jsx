@@ -19,6 +19,7 @@ function load() {
 
 export function FarmProvider({ children, user }) {
   const [state, setState] = useState(load);
+  const [remoteReady, setRemoteReady] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -69,6 +70,7 @@ export function FarmProvider({ children, user }) {
               sown: crop.sowing_date || current.farm.sown,
             },
           }));
+          setRemoteReady(true);
         }
       } catch {
         // Keep the local shell usable while the API is waking up or unavailable.
@@ -90,6 +92,7 @@ export function FarmProvider({ children, user }) {
 
   const value = useMemo(() => ({
     ...state,
+    remoteReady,
     set: (patch) => setState((s) => ({ ...s, ...patch })),
     setFarm: (patch) => setState((s) => ({ ...s, farm: { ...s.farm, ...patch } })),
     setFarmer: (patch) => setState((s) => ({ ...s, farmer: { ...s.farmer, ...patch } })),

@@ -1,5 +1,5 @@
 // Thin API client. Point VITE_API_URL at the FastAPI service.
-const BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const BASE = (import.meta.env.VITE_API_URL || "https://crop-disease-ai-hojt.onrender.com").replace(/\/$/, "");
 
 function token() {
   try { return localStorage.getItem("inno.token"); } catch { return null; }

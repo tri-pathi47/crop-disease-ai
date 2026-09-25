@@ -8,7 +8,7 @@ import { useFarm } from "../lib/useFarm.jsx";
 import { cropInfo } from "../lib/appData.js";
 
 export default function Home() {
-  const { lang, farmer, farm } = useFarm();
+  const { lang, farmer, farm, remoteReady } = useFarm();
   const t = makeT(lang);
   const nav = useNavigate();
   const [weather, setWeather] = useState(null);
@@ -25,7 +25,7 @@ export default function Home() {
       setWeather(data);
     }).catch(() => setError("weather"));
     api.alerts(farm.id).then(setAlerts).catch(() => {});
-    api.diagnosisHistory(farm.cropCycleId).then(setTimeline).catch(() => {});
+    if (remoteReady) api.diagnosisHistory(farm.cropCycleId).then(setTimeline).catch(() => {});
   }, [farm.id, farm.lat, farm.lng, farm.cropCycleId]);
 
   const pressure = weather?.disease_pressure;
@@ -85,9 +85,9 @@ export default function Home() {
         </div>
       )}
 
-      {error === "weather" && (
-        <Banner>Weather is not loading. Check that the API is running on {api.base}.</Banner>
-      )}
+      {error === "weather" && 
+        <Banner>Weather data is temporarily unavailable. It will return when the forecast provider responds.</Banner>
+      }
     </>
   );
 }
