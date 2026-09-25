@@ -3,7 +3,7 @@ import asyncio
 import cv2
 import numpy as np
 
-from app.services import image_quality, knowledge, scoring, weather
+from app.services import image_quality, knowledge, rag, scoring, weather
 
 
 def test_image_quality_rejects_dark_nonplant_photo():
@@ -25,6 +25,15 @@ def test_image_quality_accepts_clear_green_image():
 
 def test_healthy_result_has_no_disease_reference():
     assert knowledge.best_match("tomato", "healthy", 0, 0) is None
+
+
+def test_expanded_crop_profile_is_available_to_assistant():
+    assert knowledge.entry("crops", "rice")["soil"]
+    answer = rag.generate("What soil does my crop need?", "rice", {
+        "crop": {"crop": "rice", "stage": "Tillering"},
+    })
+    assert "Rice" in answer["answer"]
+    assert "soil" in answer["answer"].lower()
 
 
 def test_scoring_returns_ranked_candidates():

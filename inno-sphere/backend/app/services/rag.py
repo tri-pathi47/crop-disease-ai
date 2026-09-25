@@ -95,6 +95,13 @@ def _compose(kind: str, chunks: list[dict], ctx: dict) -> str:
                 f"It is favoured by {c.get('favours') or c.get('season')}. "
                 "Send a photo of the whole plant and one of the underside of an "
                 "affected leaf so this can be narrowed down instead of guessed.")
+    profile = knowledge.entry("crops", crop_name(ctx).lower().strip())
+    if profile:
+        return (f"For {profile['name']} at the {ctx.get('stage', 'current')} stage: "
+                f"this crop prefers {profile['soil']}. "
+                f"Key nutrient guidance: {profile['nutrients']}. "
+                f"Watch the weather because {profile['climate']}. "
+                "Use your soil test and a clear whole-plant photo before making a treatment decision.")
     return (f"For {crop_name(ctx)}, the photo and description do not yet match a verified crop-specific knowledge entry. "
             "Yellow leaves have at least four common explanations: a fungal "
             "disease, a nutrient shortage, water or heat stress, and insect "

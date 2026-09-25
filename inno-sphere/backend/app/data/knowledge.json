@@ -79,6 +79,96 @@
       ],
       "source": "ICAR-CPRI",
       "version": "demo v0.3"
+    },
+    "rice": {
+      "name": "Rice", "hi": "धान",
+      "stages": ["Nursery", "Tillering", "Panicle initiation", "Flowering", "Grain filling", "Harvest"],
+      "soil": "Clay loam to loam with good water-holding capacity, pH 5.5-7.0",
+      "climate": "Warm and humid; irrigation and drainage must be managed carefully",
+      "nutrients": "Nitrogen is split across early growth and tillering; zinc deficiency is common in flooded soils",
+      "diseases": [], "pests": [], "deficiencies": ["zinc", "nitrogen"],
+      "source": "ICAR rice package of practices", "version": "curated v1"
+    },
+    "maize": {
+      "name": "Maize", "hi": "मक्का",
+      "stages": ["Seedling", "Vegetative", "Tasseling", "Silking", "Grain filling", "Harvest"],
+      "soil": "Well-drained loam or sandy loam, pH 5.5-7.5",
+      "climate": "Warm growing season; water stress around tasseling and silking reduces yield",
+      "nutrients": "Nitrogen demand is high during vegetative growth; phosphorus supports early roots",
+      "diseases": [], "pests": [], "deficiencies": ["nitrogen", "zinc"],
+      "source": "ICAR Indian Institute of Maize Research", "version": "curated v1"
+    },
+    "cotton": {
+      "name": "Cotton", "hi": "कपास",
+      "stages": ["Seedling", "Vegetative", "Square formation", "Flowering", "Boll development", "Harvest"],
+      "soil": "Deep well-drained black soil or loam, pH 6.0-8.0",
+      "climate": "Warm season crop; waterlogging and prolonged cloudy weather increase risk",
+      "nutrients": "Balanced nitrogen and potassium are important from squaring through boll development",
+      "diseases": [], "pests": [], "deficiencies": ["potassium", "magnesium"],
+      "source": "ICAR-Central Institute for Cotton Research", "version": "curated v1"
+    },
+    "sugarcane": {
+      "name": "Sugarcane", "hi": "गन्ना",
+      "stages": ["Germination", "Tillering", "Grand growth", "Maturity", "Harvest"],
+      "soil": "Deep fertile loam with drainage, pH 6.5-7.5",
+      "climate": "Long warm growing season with reliable moisture; avoid standing water",
+      "nutrients": "Nitrogen is needed early; potassium supports stalk strength and maturity",
+      "diseases": [], "pests": [], "deficiencies": ["nitrogen", "potassium"],
+      "source": "ICAR-Sugarcane Breeding Institute", "version": "curated v1"
+    },
+    "onion": {
+      "name": "Onion", "hi": "प्याज",
+      "stages": ["Nursery", "Vegetative", "Bulbing", "Maturity", "Harvest"],
+      "soil": "Friable well-drained loam, pH 6.0-7.5; avoid waterlogging",
+      "climate": "Cool conditions for leaves followed by warm dry weather for bulb maturity",
+      "nutrients": "Steady nitrogen before bulbing; excess nitrogen late delays curing",
+      "diseases": [], "pests": [], "deficiencies": ["sulphur", "zinc"],
+      "source": "ICAR-Directorate of Onion and Garlic Research", "version": "curated v1"
+    },
+    "chilli": {
+      "name": "Chilli", "hi": "मिर्च",
+      "stages": ["Seedling", "Vegetative", "Flowering", "Fruiting", "Harvest"],
+      "soil": "Well-drained loam, pH 6.0-7.0",
+      "climate": "Warm and moderately dry; high humidity favours leaf and fruit disease",
+      "nutrients": "Balanced nitrogen early, with potassium during flowering and fruiting",
+      "diseases": [], "pests": [], "deficiencies": ["calcium", "boron"],
+      "source": "ICAR horticulture package of practices", "version": "curated v1"
+    },
+    "mustard": {
+      "name": "Mustard", "hi": "सरसों",
+      "stages": ["Rosette", "Branching", "Flowering", "Pod formation", "Maturity"],
+      "soil": "Well-drained loam to clay loam, pH 6.0-7.5",
+      "climate": "Cool dry season; heat during flowering reduces pod set",
+      "nutrients": "Sulphur is important for oil formation; nitrogen should be balanced",
+      "diseases": [], "pests": [], "deficiencies": ["sulphur", "boron"],
+      "source": "ICAR-Indian Agricultural Research Institute", "version": "curated v1"
+    },
+    "chickpea": {
+      "name": "Chickpea", "hi": "चना",
+      "stages": ["Seedling", "Vegetative", "Flowering", "Pod filling", "Maturity"],
+      "soil": "Well-drained loam to black soil, pH 6.0-8.0",
+      "climate": "Cool dry season; excess humidity and late irrigation increase disease risk",
+      "nutrients": "Use healthy inoculated seed; phosphorus and sulphur support roots and pods",
+      "diseases": [], "pests": [], "deficiencies": ["sulphur", "zinc"],
+      "source": "ICAR-Indian Institute of Pulses Research", "version": "curated v1"
+    },
+    "groundnut": {
+      "name": "Groundnut", "hi": "मूंगफली",
+      "stages": ["Seedling", "Vegetative", "Flowering", "Pegging", "Pod filling", "Harvest"],
+      "soil": "Light well-drained sandy loam, pH 6.0-7.5",
+      "climate": "Warm season with moisture during pegging and pod filling; avoid waterlogging",
+      "nutrients": "Calcium and sulphur are important near pegging; avoid excess nitrogen",
+      "diseases": [], "pests": [], "deficiencies": ["calcium", "sulphur"],
+      "source": "ICAR-Directorate of Groundnut Research", "version": "curated v1"
+    },
+    "soybean": {
+      "name": "Soybean", "hi": "सोयाबीन",
+      "stages": ["Seedling", "Vegetative", "Flowering", "Pod filling", "Maturity"],
+      "soil": "Well-drained loam to clay loam, pH 6.0-7.5",
+      "climate": "Warm season with adequate moisture during flowering and pod filling",
+      "nutrients": "Use effective rhizobium inoculation; phosphorus and sulphur support nodulation and seed fill",
+      "diseases": [], "pests": [], "deficiencies": ["iron", "sulphur"],
+      "source": "ICAR-Indian Institute of Soybean Research", "version": "curated v1"
     }
   },
   "diseases": {
