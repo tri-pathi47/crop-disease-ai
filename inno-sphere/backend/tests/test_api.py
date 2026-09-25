@@ -11,6 +11,12 @@ def test_health_is_public(client):
     assert response.json()["status"] == "ok"
 
 
+def test_api_root_is_public(client):
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json()["health"] == "/health"
+
+
 def test_register_login_and_profile(client):
     token = register(client, "Test Farmer")
     me = client.get("/auth/me", headers=auth(token))

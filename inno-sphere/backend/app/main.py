@@ -50,3 +50,13 @@ def health():
         "environment": settings.environment,
         "image_storage": "cloudinary" if storage.configured() else "local-temporary",
     }
+
+
+@app.get("/")
+def root():
+    return {
+        "name": settings.app_name,
+        "status": "ok",
+        "docs": "/docs",
+        "health": "/health",
+    }
