@@ -79,3 +79,31 @@ def test_weather_uses_cache(monkeypatch):
     assert first["provider"] == "Open-Meteo"
     assert second["cached"]
     assert calls == 1
+
+
+def test_weather_uses_openweather_when_configured(monkeypatch):
+    weather._cache.clear()
+    monkeypatch.setattr(weather.settings, "openweather_api_key", "test-key")
+
+    async def get(self, url, params=None):
+        payload = {
+            "main": {"temp": 27, "humidity": 65},
+            "wind": {"speed": 3},
+            "weather": [{"description": "clear sky"}],
+        } if url.endswith("/weather") else {
+            "list": [{
+                "dt": 1790352000,
+                "main": {"temp_max": 30, "temp_min": 21, "humidity": 65},
+                "pop": 0.2,
+            }],
+        }
+        return type("Response", (), {
+            "raise_for_status": lambda response: None,
+            "json": lambda response: payload,
+        })()
+
+    monkeypatch.setattr(weather.httpx.AsyncClient, "get", get)
+    result = asyncio.run(weather.fetch(28.6, 77.4))
+    assert result["provider"] == "OpenWeather"
+    assert result["current"]["temp"] == 27
+    assert result["forecast"][0]["rain"] == 20
