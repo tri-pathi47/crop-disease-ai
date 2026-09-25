@@ -64,12 +64,19 @@ DATABASE_URL=postgresql://neondb_owner:YOUR_PASSWORD@ep-example.us-east-2.aws.ne
 ENVIRONMENT=production
 JWT_SECRET=<a-long-random-secret>
 FRONTEND_URL=https://your-frontend-service.onrender.com
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
 ```
 
 The API automatically converts Neon's `postgresql://` URL (and Render's legacy
 `postgres://` form) to the installed `psycopg` SQLAlchemy driver. Keep Neon's
 `sslmode=require` query parameter in the URL. The Render health check is
 `/health`.
+
+The health response reports `image_storage: cloudinary` when permanent photo
+storage is active. Without the Cloudinary variables it reports
+`local-temporary`, which is suitable only for local development.
 
 Add this variable to the frontend service, using the API service URL shown by
 Render:

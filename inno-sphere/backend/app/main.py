@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
 from .database import Base, engine
+from .services import storage
 from .routers import auth, farm, images, diagnosis, context, chat, knowledge
 
 app = FastAPI(
@@ -41,4 +42,8 @@ def startup():
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "environment": settings.environment}
+    return {
+        "status": "ok",
+        "environment": settings.environment,
+        "image_storage": "cloudinary" if storage.configured() else "local-temporary",
+    }

@@ -1,5 +1,6 @@
 """Application settings. Everything is read from the environment (.env)."""
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import model_validator
 
 
 class Settings(BaseSettings):
@@ -30,6 +31,12 @@ class Settings(BaseSettings):
     neo4j_password: str | None = None
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    @model_validator(mode="after")
+    def validate_production_secret(self):
+        if self.environment == "production" and self.jwt_secret == "change-me-in-production":
+            raise ValueError("JWT_SECRET must be set to a strong secret in production.")
+        return self
 
 
 settings = Settings()
