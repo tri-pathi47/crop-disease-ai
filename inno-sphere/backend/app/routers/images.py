@@ -12,7 +12,7 @@ from ..config import settings
 from ..database import get_db
 from ..models import CropImage, CropCycle, User
 from ..schemas import QualityOut
-from ..services import image_quality, segmentation
+from ..services import image_quality, segmentation, storage
 from .auth import current_user
 
 router = APIRouter(prefix="/images", tags=["images"])
@@ -47,10 +47,10 @@ async def upload(
 
     Path(settings.upload_dir).mkdir(parents=True, exist_ok=True)
     path = Path(settings.upload_dir) / f"{uuid.uuid4().hex}.jpg"
-    cv2.imwrite(str(path), image_quality.preprocess(img))
+    stored_path = await storage.save_image(image_quality.preprocess(img), path)
 
     row = CropImage(
-        crop_cycle_id=crop_cycle_id, view_type=view_type, file_path=str(path),
+        crop_cycle_id=crop_cycle_id, view_type=view_type, file_path=stored_path,
         quality_score=quality.score, quality_issues=quality.issues,
         features=quality.dict(),
     )
@@ -73,6 +73,8 @@ def evidence(image_id: int, db: Session = Depends(get_db),
     cycle = db.get(CropCycle, row.crop_cycle_id) if row else None
     if not row or not cycle or cycle.farm.user_id != user.id:
         raise HTTPException(404, "Image not found.")
-    img = cv2.imread(row.file_path)
+    img = storage.read_image(row.file_path)
+    if img is None:
+        raise HTTPException(503, "The stored image is temporarily unavailable.")
     seg = segmentation.segment(img)
     return Response(segmentation.overlay_png(img, seg["mask"]), media_type="image/png")

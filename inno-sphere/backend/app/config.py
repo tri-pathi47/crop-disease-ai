@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     jwt_expire_minutes: int = 60 * 24 * 14
 
     upload_dir: str = "./uploads"
+    cloudinary_cloud_name: str | None = None
+    cloudinary_api_key: str | None = None
+    cloudinary_api_secret: str | None = None
 
     # Optional external services. When a key is missing the matching service
     # falls back to clearly-labelled demo data instead of failing.

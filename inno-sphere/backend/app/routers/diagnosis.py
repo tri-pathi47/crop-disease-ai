@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models import CropImage, CropCycle, Diagnosis, SoilRecord, User
 from ..schemas import AnalyseIn, DiagnosisOut
-from ..services import segmentation, scoring, knowledge, rag, weather, satellite
+from ..services import segmentation, scoring, knowledge, rag, weather, satellite, storage
 from .auth import current_user
 
 router = APIRouter(prefix="/diagnosis", tags=["diagnosis"])
@@ -94,7 +94,7 @@ async def analyse(body: AnalyseIn, db: Session = Depends(get_db),
     # --- DETECT: measure symptoms from the real pixels -----------------
     segs = []
     for row in usable:
-        img = cv2.imread(row.file_path)
+        img = storage.read_image(row.file_path)
         if img is not None:
             segs.append(segmentation.segment(img))
     if not segs:
