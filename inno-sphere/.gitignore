@@ -13,6 +13,7 @@ dist/
 # Env and data
 .env
 uploads/
+models/
 *.db
 
 # Editors / OS

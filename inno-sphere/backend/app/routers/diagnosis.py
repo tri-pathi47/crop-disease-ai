@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models import CropImage, CropCycle, Diagnosis, SoilRecord, User
 from ..schemas import AnalyseIn, DiagnosisOut
-from ..services import segmentation, scoring, knowledge, rag, weather, satellite, storage
+from ..services import segmentation, scoring, knowledge, rag, weather, satellite, storage, cnn
 from .auth import current_user
 
 router = APIRouter(prefix="/diagnosis", tags=["diagnosis"])
@@ -93,10 +93,13 @@ async def analyse(body: AnalyseIn, db: Session = Depends(get_db),
 
     # --- DETECT: measure symptoms from the real pixels -----------------
     segs = []
+    cnn_result = None
     for row in usable:
         img = storage.read_image(row.file_path)
         if img is not None:
             segs.append(segmentation.segment(img))
+            if cnn_result is None:
+                cnn_result = cnn.predict(img, cycle.crop)
     if not segs:
         raise HTTPException(422, "The uploaded photos could not be processed. Please retake them.")
     lesion_pct = sum(s["lesion_pct"] for s in segs) / len(segs)
@@ -150,6 +153,9 @@ async def analyse(body: AnalyseIn, db: Session = Depends(get_db),
          "value": (f"{len(sat['flagged_zones'])} zones flagged"
                if sat.get("source") not in ("not_connected", "unavailable")
                else "satellite provider not connected")},
+        {"ok": cnn_result is not None, "key": "CNN model",
+         "value": (f"{cnn_result['top']['label']} ({cnn_result['top']['confidence']:.0%})"
+               if cnn_result else "validated model not configured")},
         {"ok": bool(body.farmer_note), "key": "Your own description",
          "value": "included" if body.farmer_note else "not given"},
     ]

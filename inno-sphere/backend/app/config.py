@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     cloudinary_cloud_name: str | None = None
     cloudinary_api_key: str | None = None
     cloudinary_api_secret: str | None = None
+    cnn_model_path: str | None = None
+    cnn_labels_path: str | None = None
 
     # Optional external services. When a key is missing the matching service
     # falls back to clearly-labelled demo data instead of failing.

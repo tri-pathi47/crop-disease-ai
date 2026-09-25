@@ -78,6 +78,20 @@ The health response reports `image_storage: cloudinary` when permanent photo
 storage is active. Without the Cloudinary variables it reports
 `local-temporary`, which is suitable only for local development.
 
+### Optional CNN model
+
+The diagnosis pipeline accepts a validated ONNX CNN without requiring a code
+change. Add a model and JSON label list to a private model store, then set:
+
+```text
+CNN_MODEL_PATH=/srv/models/crop-disease.onnx
+CNN_LABELS_PATH=/srv/models/labels.json
+```
+
+The model must be trained across the crops and disease classes you claim to
+support. Until both files are configured, the app reports that the CNN is not
+configured and uses its transparent image measurements instead.
+
 Add this variable to the frontend service, using the API service URL shown by
 Render:
 
