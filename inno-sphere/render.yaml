@@ -37,6 +37,8 @@ services:
         sync: false
       - key: VISION_DEVICE
         value: cpu
+      - key: OPENWEATHER_API_KEY
+        sync: false
 
   - type: static
     name: inno-sphere-web
