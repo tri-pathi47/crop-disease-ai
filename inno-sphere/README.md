@@ -17,6 +17,21 @@ No special camera. No IoT sensors. No hardware of any kind.
 
 You need Python 3.11+ and Node 20+.
 
+### Automated tests
+
+Run the backend contract and service tests, then build the frontend:
+
+```bash
+cd backend
+pip install -r requirements.txt
+python -m pytest -q
+cd ../frontend
+npm install
+npm run build
+```
+
+Every push to `main` and every pull request runs the same checks in GitHub Actions.
+
 ### Local development
 
 ```bash
