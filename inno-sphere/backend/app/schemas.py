@@ -1,5 +1,5 @@
 from datetime import date
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class RegisterIn(BaseModel):
@@ -29,8 +29,7 @@ class FarmerOut(BaseModel):
     land_area_ha: float | None = None
     experience_years: int | None = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class FarmerUpdate(BaseModel):
@@ -54,8 +53,7 @@ class FarmIn(BaseModel):
 class FarmOut(FarmIn):
     id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CropIn(BaseModel):
@@ -69,8 +67,7 @@ class CropIn(BaseModel):
 class CropOut(CropIn):
     id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class SoilIn(BaseModel):

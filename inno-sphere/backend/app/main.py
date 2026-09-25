@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -6,9 +8,16 @@ from .database import Base, engine
 from .services import storage
 from .routers import auth, farm, images, diagnosis, context, chat, knowledge
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(engine)
+    yield
+
 app = FastAPI(
     title=settings.app_name,
     version="0.3.0",
+    lifespan=lifespan,
     description=(
         "Crop health and farm intelligence for Indian farmers.\n\n"
         "Pipeline: CAPTURE -> ANALYZE -> VERIFY -> EXPLAIN -> ADVISE -> MONITOR.\n"
@@ -32,12 +41,6 @@ app.add_middleware(
 for r in (auth.router, farm.router, images.router, diagnosis.router,
           context.router, chat.router, knowledge.router):
     app.include_router(r)
-
-
-@app.on_event("startup")
-def startup():
-    # For a real deployment use Alembic migrations instead.
-    Base.metadata.create_all(engine)
 
 
 @app.get("/health")

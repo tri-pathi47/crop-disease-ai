@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -20,7 +20,7 @@ oauth2 = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 def make_token(user_id: int) -> str:
     payload = {"sub": str(user_id),
-               "exp": datetime.utcnow() + timedelta(minutes=settings.jwt_expire_minutes)}
+               "exp": datetime.now(timezone.utc) + timedelta(minutes=settings.jwt_expire_minutes)}
     return jwt.encode(payload, settings.jwt_secret, algorithm=settings.jwt_algorithm)
 
 

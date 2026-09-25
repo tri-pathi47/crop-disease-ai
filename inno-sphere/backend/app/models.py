@@ -1,5 +1,5 @@
 """SQLAlchemy models. Mirrors db/schema.sql — keep the two in step."""
-from datetime import datetime, date
+from datetime import datetime, date, timezone
 
 from sqlalchemy import (
     String, Integer, Float, Text, Date, DateTime, ForeignKey, JSON, Boolean
@@ -23,7 +23,7 @@ class User(Base):
     land_area_ha: Mapped[float | None] = mapped_column(Float)
     experience_years: Mapped[int | None] = mapped_column(Integer)
     prefers_voice: Mapped[bool] = mapped_column(Boolean, default=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     farms: Mapped[list["Farm"]] = relationship(back_populates="owner")
 
@@ -38,7 +38,7 @@ class Farm(Base):
     area_ha: Mapped[float | None] = mapped_column(Float)
     boundary_geojson: Mapped[dict | None] = mapped_column(JSON)
     soil_type: Mapped[str | None] = mapped_column(String(80))
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     owner: Mapped[User] = relationship(back_populates="farms")
     crops: Mapped[list["CropCycle"]] = relationship(back_populates="farm")
@@ -87,7 +87,7 @@ class CropImage(Base):
     quality_score: Mapped[int | None] = mapped_column(Integer)
     quality_issues: Mapped[list | None] = mapped_column(JSON)
     features: Mapped[dict | None] = mapped_column(JSON)
-    captured_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    captured_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 
 class Diagnosis(Base):
@@ -102,7 +102,7 @@ class Diagnosis(Base):
     actions: Mapped[list] = mapped_column(JSON)
     knowledge_refs: Mapped[list | None] = mapped_column(JSON)
     image_ids: Mapped[list | None] = mapped_column(JSON)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 
 class Alert(Base):
@@ -115,7 +115,7 @@ class Alert(Base):
     reason: Mapped[str] = mapped_column(Text)
     action: Mapped[str | None] = mapped_column(String(200))
     acknowledged: Mapped[bool] = mapped_column(Boolean, default=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 
 class ChatMessage(Base):
@@ -126,7 +126,7 @@ class ChatMessage(Base):
     text: Mapped[str] = mapped_column(Text)
     route: Mapped[str | None] = mapped_column(String(30))
     sources: Mapped[list | None] = mapped_column(JSON)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 
 class MonitoringEvent(Base):
