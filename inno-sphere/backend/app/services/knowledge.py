@@ -29,6 +29,8 @@ def entry(kind: str, key: str) -> dict | None:
 
 def best_match(crop: str, key: str, lesion_pct: float, humid_nights: int) -> dict | None:
     """Pick the knowledge entry that best explains the measured evidence."""
+    if key in ("healthy", "nutrient", "stress"):
+        return None
     if key == "pest":
         candidates = pests_for(crop)
         return candidates[0] if candidates else None

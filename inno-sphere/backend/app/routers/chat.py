@@ -14,7 +14,8 @@ router = APIRouter(tags=["chat"])
 @router.post("/chat")
 async def chat(body: ChatIn, db: Session = Depends(get_db),
                user: User = Depends(current_user)):
-    crop = "tomato"
+    crop = "your crop"
+    cycle = None
     context: dict = {"language": body.language}
 
     if body.crop_cycle_id:
@@ -31,7 +32,7 @@ async def chat(body: ChatIn, db: Session = Depends(get_db),
 
     route = rag.route(body.question)
     if route in ("weather", "farm_satellite"):
-        farm = cycle.farm if body.crop_cycle_id and cycle else None
+        farm = cycle.farm if cycle else None
         context["weather"] = await weather_service.fetch(
             farm.latitude if farm and farm.latitude is not None else 28.669,
             farm.longitude if farm and farm.longitude is not None else 77.453,

@@ -95,7 +95,7 @@ def _compose(kind: str, chunks: list[dict], ctx: dict) -> str:
                 f"It is favoured by {c.get('favours') or c.get('season')}. "
                 "Send a photo of the whole plant and one of the underside of an "
                 "affected leaf so this can be narrowed down instead of guessed.")
-    return (f"For {ctx.get('crop', crop_name(ctx))}, the photo and description do not yet match a verified crop-specific knowledge entry. "
+    return (f"For {crop_name(ctx)}, the photo and description do not yet match a verified crop-specific knowledge entry. "
             "Yellow leaves have at least four common explanations: a fungal "
             "disease, a nutrient shortage, water or heat stress, and insect "
             "feeding. They are separated by where the yellowing starts, its "
@@ -104,4 +104,7 @@ def _compose(kind: str, chunks: list[dict], ctx: dict) -> str:
 
 
 def crop_name(ctx: dict) -> str:
-    return ctx.get("crop") or "this crop"
+    crop = ctx.get("crop")
+    if isinstance(crop, dict):
+        crop = crop.get("crop")
+    return crop or "this crop"

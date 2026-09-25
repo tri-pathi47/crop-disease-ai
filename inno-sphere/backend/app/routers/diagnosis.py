@@ -85,7 +85,8 @@ async def analyse(body: AnalyseIn, db: Session = Depends(get_db),
         raise HTTPException(404, "Crop cycle not found.")
 
     images = db.query(CropImage).filter(CropImage.id.in_(body.image_ids)).all()
-    usable = [i for i in images if (i.quality_score or 0) >= 55]
+    usable = [i for i in images
+              if i.crop_cycle_id == cycle.id and (i.quality_score or 0) >= 55]
     if not usable:
         raise HTTPException(422, "No usable photo. Retake in better light with the "
                                  "affected area clearly visible.")
@@ -96,6 +97,8 @@ async def analyse(body: AnalyseIn, db: Session = Depends(get_db),
         img = cv2.imread(row.file_path)
         if img is not None:
             segs.append(segmentation.segment(img))
+    if not segs:
+        raise HTTPException(422, "The uploaded photos could not be processed. Please retake them.")
     lesion_pct = sum(s["lesion_pct"] for s in segs) / len(segs)
     yellow_share = sum(s["yellow_share"] for s in segs) / len(segs)
 
@@ -143,8 +146,10 @@ async def analyse(body: AnalyseIn, db: Session = Depends(get_db),
                    if wx["provider"] != "unavailable" else "forecast unavailable")},
         {"ok": soil is not None, "key": "Soil record",
          "value": f"pH {soil.ph}, zinc {soil.zinc} ppm" if soil else "not provided"},
-        {"ok": True, "key": "Satellite field trend",
-         "value": f"{len(sat['flagged_zones'])} zones flagged"},
+        {"ok": sat.get("source") not in ("not_connected", "unavailable"), "key": "Satellite field trend",
+         "value": (f"{len(sat['flagged_zones'])} zones flagged"
+               if sat.get("source") not in ("not_connected", "unavailable")
+               else "satellite provider not connected")},
         {"ok": bool(body.farmer_note), "key": "Your own description",
          "value": "included" if body.farmer_note else "not given"},
     ]

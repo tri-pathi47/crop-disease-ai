@@ -5,6 +5,7 @@ import { api } from "../lib/api.js";
 import { makeT, SPEECH_LOCALE } from "../lib/i18n.js";
 import { useFarm } from "../lib/useFarm.jsx";
 import { CROPS, cropInfo } from "../lib/appData.js";
+import { VIEWS } from "../lib/appData.js";
 
 export default function Chat() {
   const { lang, farm, setFarm } = useFarm();
@@ -14,6 +15,8 @@ export default function Chat() {
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [listening, setListening] = useState(false);
+  const [photoBusy, setPhotoBusy] = useState(false);
+  const photoInput = useRef(null);
   const recognition = useRef(null);
   const end = useRef(null);
 
@@ -47,6 +50,39 @@ export default function Chat() {
     }
   }
 
+  async function analysePhotos(event) {
+    const files = Array.from(event.target.files || []).slice(0, VIEWS.length);
+    event.target.value = "";
+    if (!files.length || photoBusy) return;
+    setPhotoBusy(true);
+    setMessages((m) => [...m, { role: "user", text: `I sent ${files.length} crop photo${files.length > 1 ? "s" : ""} for analysis.` }]);
+    try {
+      const uploaded = [];
+      for (let i = 0; i < files.length; i++) {
+        const response = await api.uploadImage(farm.cropCycleId, VIEWS[i].key, files[i], lang);
+        if (response.usable) uploaded.push(response.image_id);
+      }
+      if (!uploaded.length) throw new Error("The photos were not clear enough. Please retake them in daylight.");
+      const result = await api.analyse({
+        crop_cycle_id: farm.cropCycleId,
+        image_ids: uploaded,
+        farmer_note: draft.trim(),
+      });
+      const actions = result.actions?.slice(0, 3).map((action) => `• ${action}`).join("\n") || "Send another clear photo if you want more detail.";
+      setDraft("");
+      setMessages((m) => [...m, {
+        role: "assistant",
+        text: `Photo assessment: ${result.primary}\n\nConfidence: ${result.confidence}\n\nWhat to do next:\n${actions}`,
+        sources: result.sources,
+        route: "photo analysis",
+      }]);
+    } catch (err) {
+      setMessages((m) => [...m, { role: "assistant", text: `I could not complete the photo assessment. ${err.message}` }]);
+    } finally {
+      setPhotoBusy(false);
+    }
+  }
+
   function toggleVoice() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
@@ -56,7 +92,11 @@ export default function Chat() {
     if (listening) { recognition.current?.stop(); setListening(false); return; }
     const recorder = new SpeechRecognition();
     recorder.lang = SPEECH_LOCALE[lang] || "en-IN";
-    recorder.onresult = (event) => setDraft(event.results[0][0].transcript);
+    recorder.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setDraft(transcript);
+      send(transcript);
+    };
     recorder.onerror = () => setListening(false);
     recorder.onend = () => setListening(false);
     recognition.current = recorder;
@@ -99,14 +139,15 @@ export default function Chat() {
             )}
           </div>
         ))}
-        {busy && <div className="msg ai">Checking your farm, the weather and the knowledge base…</div>}
+        {(busy || photoBusy) && <div className="msg ai">{photoBusy ? "Checking your photos, crop, weather and soil…" : "Checking your farm, the weather and the knowledge base…"}</div>}
         <div ref={end} />
       </div>
 
       <div className="composer">
         <div className="box">
           <button className={`iconbtn ${listening ? "listening" : ""}`} onClick={toggleVoice} aria-label={t("voiceLabel")}><Icons.mic width="20" height="20" /></button>
-          <button className="iconbtn" onClick={() => nav("/analyse")} aria-label={t("photoLabel")}><Icons.cam width="20" height="20" /></button>
+          <button className="iconbtn" onClick={() => photoInput.current?.click()} aria-label={t("photoLabel")} disabled={photoBusy}><Icons.cam width="20" height="20" /></button>
+          <input ref={photoInput} className="hide" type="file" accept="image/*" capture="environment" multiple onChange={analysePhotos} />
           <textarea rows="1" value={draft} placeholder={t("askPlaceholder")}
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }} />
