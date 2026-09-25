@@ -147,9 +147,10 @@ async def analyse(body: AnalyseIn, db: Session = Depends(get_db),
          "value": ", ".join(views)},
         {"ok": True, "key": "Crop and growth stage",
          "value": f"{cycle.crop}, {cycle.growth_stage}"},
-        {"ok": wx["provider"] != "unavailable", "key": "Weather match",
+        {"ok": wx["provider"] not in ("unavailable", "demo-fallback"), "key": "Weather match",
          "value": (f"{ctx.humid_nights} humid nights ahead"
-                   if wx["provider"] != "unavailable" else "forecast unavailable")},
+               if wx["provider"] not in ("unavailable", "demo-fallback")
+               else "live forecast unavailable")},
         {"ok": soil is not None, "key": "Soil record",
          "value": f"pH {soil.ph}, zinc {soil.zinc} ppm" if soil else "not provided"},
         {"ok": sat.get("source") not in ("not_connected", "unavailable"), "key": "Satellite field trend",

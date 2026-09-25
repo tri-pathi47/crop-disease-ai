@@ -50,5 +50,32 @@ def test_weather_fallback_is_safe(monkeypatch):
 
     monkeypatch.setattr(weather.httpx.AsyncClient, "__aenter__", fail)
     result = asyncio.run(weather.fetch(28.6, 77.4))
-    assert result["provider"] == "unavailable"
-    assert result["current"] is None
+    assert result["provider"] == "demo-fallback"
+    assert result["current"]["temp"] == 30
+    assert "not live evidence" in result["note"]
+
+
+def test_weather_uses_cache(monkeypatch):
+    weather._cache.clear()
+    calls = 0
+
+    async def get(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        return type("Response", (), {
+            "raise_for_status": lambda self: None,
+            "json": lambda self: {
+                "current": {"temperature_2m": 25, "relative_humidity_2m": 60,
+                             "wind_speed_10m": 5, "weather_code": 0},
+                "daily": {"time": ["2026-09-25"], "temperature_2m_max": [30],
+                           "temperature_2m_min": [20], "precipitation_probability_max": [0],
+                           "relative_humidity_2m_mean": [60]},
+            },
+        })()
+
+    monkeypatch.setattr(weather.httpx.AsyncClient, "get", get)
+    first = asyncio.run(weather.fetch(10.123, 20.456))
+    second = asyncio.run(weather.fetch(10.123, 20.456))
+    assert first["provider"] == "Open-Meteo"
+    assert second["cached"]
+    assert calls == 1
